@@ -1,6 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FiArrowRight, FiCode, FiLayout, FiTrendingUp, FiCheckCircle, FiStar } from "react-icons/fi";
+import { 
+  FiArrowRight, 
+  FiCode, 
+  FiCpu, 
+  FiDatabase, 
+  FiGlobe, 
+  FiLayers, 
+  FiTerminal, 
+  FiZap, 
+  FiSmartphone, 
+  FiLayout, 
+  FiGitBranch, 
+  FiTrendingUp, 
+  FiCheckCircle, 
+  FiStar,
+  FiMonitor,
+  FiCommand 
+} from "react-icons/fi";
 
 function Home() {
   // Animation Variant
@@ -11,33 +28,90 @@ function Home() {
     transition: { duration: 0.6, ease: "easeOut" }
   };
 
+  // Floating Elements Logic (Icons + Emojis)
+  const floatingElements = [
+    { content: <FiCode />, top: "12%", left: "6%", delay: 0, size: "text-6xl", color: "text-blue-500/70" },
+    { content: <FiGlobe />, top: "18%", right: "10%", delay: 1, size: "text-6xl", color: "text-blue-400/60" },
+    { content: <FiTerminal />, bottom: "18%", left: "10%", delay: 2, size: "text-5xl", color: "text-slate-500/80" },
+    { content: <FiMonitor />, bottom: "22%", right: "8%", delay: 0.5, size: "text-6xl", color: "text-slate-400/70" },
+    { content: <FiDatabase />, top: "45%", left: "4%", delay: 1.5, size: "text-5xl", color: "text-blue-600/60" },
+    { content: <FiZap />, top: "15%", right: "32%", delay: 0.8, size: "text-5xl", color: "text-yellow-500/60" },
+    { content: <FiCpu />, top: "55%", right: "5%", delay: 2.5, size: "text-4xl", color: "text-slate-500/70" },
+    { content: <FiLayers />, bottom: "45%", right: "22%", delay: 1.2, size: "text-4xl", color: "text-blue-400/60" },
+    { content: <FiGitBranch />, bottom: "12%", left: "35%", delay: 1.8, size: "text-5xl", color: "text-blue-500/70" },
+    { content: <FiLayout />, top: "35%", left: "18%", delay: 3, size: "text-4xl", color: "text-slate-400/70" },
+    { content: <FiSmartphone />, top: "8%", right: "45%", delay: 0.3, size: "text-4xl", color: "text-blue-400/60" },
+    { content: <FiCommand />, bottom: "8%", right: "40%", delay: 2.2, size: "text-5xl", color: "text-slate-500/70" },
+  ];
+
   return (
+    
     <div className="min-h-screen bg-white">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-20 pb-16 md:pt-32 md:pb-32 px-6 overflow-hidden">
+      {/* 1. HERO SECTION (With Floating Objects) */}
+      <section className="relative pb-20 md: md:pb-32 px-6 overflow-hidden min-h-screen flex items-center justify-center">
         {/* Background Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-50/50 to-transparent -z-10"></div>
         
-        <div className="max-w-7xl mx-auto text-center">
+        {/* Moving Background Objects */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {floatingElements.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ y: 0, opacity: 0 }}
+              animate={{ 
+                y: [0, -45, 0], 
+                opacity: [0.5, 0.8, 0.5], 
+                rotate: [0, 15, -15, 0] 
+              }}
+              transition={{
+                duration: 5 + Math.random() * 3, 
+                repeat: Infinity,
+                delay: item.delay,
+                ease: "easeInOut"
+              }}
+              className={`absolute hidden md:block ${item.size} ${item.color} select-none`}
+              style={{ 
+                top: item.top, 
+                left: item.left, 
+                right: item.right, 
+                bottom: item.bottom 
+              }}
+            >
+              {item.content}
+            </motion.div>
+          ))}
+          {/* Subtle Glow Blob */}
+          <div className="absolute bottom-[-5%] right-[-5%] w-[500px] h-[500px] bg-blue-300/10 rounded-full blur-[120px] -z-20"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto text-center relative z-10">
           <motion.div {...fadeIn}>
-            <span className="inline-block px-4 py-1.5 mb-6 text-xs font-black tracking-[0.2em] text-blue-600 uppercase bg-blue-50 rounded-full">
+            <span className="inline-block px-5 py-2 mb-8 text-[11px] font-black uppercase tracking-[0.3em] text-blue-700 bg-blue-100/50 border border-blue-200 rounded-full shadow-sm">
               Software Development Studio
             </span>
-            <h1 className="text-5xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9] mb-8">
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-slate-900 tracking-tighter leading-[0.85] mb-10">
               Building Digital <br />
-              <span className="text-blue-600">Masterpieces.</span>
+              <span className="text-blue-600 drop-shadow-sm">Masterpieces.</span>
             </h1>
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-600 font-bold leading-relaxed mb-10">
+            <p className="max-w-2xl mx-auto text-xl md:text-2xl text-slate-600 font-bold leading-relaxed mb-12">
               Ahmed Raza Dev transforms your ideas into high-performance web applications with cutting-edge tech and flawless design.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="w-full sm:w-auto px-10 py-5 bg-blue-600 text-white font-black text-xl rounded-full shadow-2xl shadow-blue-200 hover:bg-slate-900 transition-all active:scale-95 flex items-center justify-center gap-3">
-                Get Started <FiArrowRight />
-              </button>
-              <button className="w-full sm:w-auto px-10 py-5 bg-white border-2 border-slate-100 text-slate-900 font-black text-xl rounded-full hover:bg-slate-50 transition-all">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+              <motion.button 
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full sm:w-auto px-12 py-5 bg-blue-600 text-white font-black text-xl rounded-full shadow-2xl shadow-blue-300/50 hover:bg-slate-900 transition-all flex items-center justify-center gap-3"
+              >
+                Get Started <FiArrowRight className="text-2xl" />
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full sm:w-auto px-12 py-5 bg-white border-2 border-slate-200 text-slate-900 font-black text-xl rounded-full hover:bg-slate-50 transition-all shadow-lg"
+              >
                 View Work
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </div>
@@ -111,7 +185,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 4. TESTIMONIALS (Premium Look) */}
+      {/* 4. TESTIMONIALS */}
       <section className="py-24 md:py-32 bg-[#0f172a] px-6 relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div {...fadeIn} className="text-center mb-20">
