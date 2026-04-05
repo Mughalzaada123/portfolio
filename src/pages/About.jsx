@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiCheckCircle, FiAward, FiUsers, FiCpu, FiArrowRight } from "react-icons/fi";
+import Footer from "../components/Footer";
 
 function About() {
   const stats = [
@@ -10,19 +11,24 @@ function About() {
     { label: "Success Rate", value: "100%", icon: <FiCheckCircle /> },
   ];
 
-  // Animation Variants for consistency
   const fadeIn = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
+    viewport: { once: true, amount: 0.2 },
     transition: { duration: 0.6, ease: "easeOut" }
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    /* 
+       FIX: 'h-screen' aur 'overflow-y-auto' yahan lazmi hai 
+       agar aapka main body/wrapper overflow-hidden hai.
+       'z-10' aur 'relative' taaki ye navbar ke niche thik se kaam kare.
+    */
+    <div className="h-screen overflow-y-auto scroll-smooth bg-white w-full relative">
       
-      {/* 1. HERO SECTION - Increased Top Padding for Sticky Navbar */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6">
+      {/* 1. HERO SECTION */}
+      {/* Navbar fixed hai isliye pt-32 ya pt-40 zaroori hai */}
+      <section className="relative pt-32 pb-16 md:pt-44 md:pb-24 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div {...fadeIn}>
             <span className="inline-block px-4 py-1.5 mb-6 text-xs font-black tracking-[0.2em] text-blue-600 uppercase bg-blue-50 rounded-full">
@@ -39,7 +45,7 @@ function About() {
         </div>
       </section>
 
-      {/* 2. MAIN CONTENT - Balanced Grid Spacing */}
+      {/* 2. MAIN CONTENT */}
       <section className="py-16 md:py-24 bg-slate-50/50 border-y border-slate-100 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
@@ -70,7 +76,6 @@ function About() {
                 </p>
               </div>
 
-              {/* Feature List with Proper Vertical Spacing */}
               <div className="grid sm:grid-cols-2 gap-6">
                 {[
                   "Component-Driven UI",
@@ -80,7 +85,7 @@ function About() {
                 ].map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <FiCheckCircle className="text-blue-600 text-xl shrink-0" />
-                    <span className="font-black text-slate-800 text-xs md:text-sm uppercase tracking-wide">{item}</span>
+                    <span className="font-black text-slate-800 text-[11px] md:text-sm uppercase tracking-wide">{item}</span>
                   </div>
                 ))}
               </div>
@@ -96,9 +101,8 @@ function About() {
         </div>
       </section>
 
-      {/* 3. STATS SECTION - High Contrast Spacing */}
+      {/* 3. STATS SECTION */}
       <section className="py-20 md:py-28 bg-[#0f172a] relative overflow-hidden px-6">
-        {/* Decorative Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/5 blur-[120px] rounded-full"></div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -125,7 +129,7 @@ function About() {
         </div>
       </section>
 
-      {/* 4. FINAL CTA - Clean Bottom Spacing */}
+      {/* 4. FINAL CTA */}
       <section className="py-24 md:py-32 px-6 text-center">
         <motion.div {...fadeIn} className="max-w-3xl mx-auto space-y-8">
           <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-none">
@@ -133,17 +137,21 @@ function About() {
             <span className="text-blue-600">Let's talk about it.</span>
           </h2>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <a href="/contactus" className="w-full sm:w-auto px-10 py-5 bg-blue-600 text-white font-black text-xl rounded-full shadow-2xl shadow-blue-200 hover:bg-blue-700 transition-all">
+            <a href="/contactus" className="w-full sm:w-auto px-10 py-5 bg-blue-600 text-white font-black text-xl rounded-full shadow-2xl shadow-blue-200 hover:bg-blue-700 transition-all text-center">
               Start Project
             </a>
-            <a href="tel:+923202108037" className="w-full sm:w-auto px-10 py-5 bg-white border-2 border-slate-100 text-slate-900 font-black text-xl rounded-full hover:bg-slate-50 transition-all">
+            <a href="tel:+923202108037" className="w-full sm:w-auto px-10 py-5 bg-white border-2 border-slate-100 text-slate-900 font-black text-xl rounded-full hover:bg-slate-50 transition-all text-center">
               Call Us
             </a>
           </div>
         </motion.div>
       </section>
 
+      {/* Footer ya extra spacing end mein taaki content pura dikhe */}
+      <div className="h-10 w-full bg-white"></div>
+    <Footer/>
     </div>
+    
   );
 }
 

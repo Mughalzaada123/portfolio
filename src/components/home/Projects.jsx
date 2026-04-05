@@ -14,7 +14,7 @@ function Projects() {
   transition={{ duration: 0.8 }} 
   className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-10 lg:mb-14 items-center sm:items-end"
 >
-  <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-tight text-center sm:text-left">
+  <h2 className="text-3xl pt-15 sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-tight text-center sm:text-left">
     Recent 
     <span className="text-blue-600"> Works</span>
   </h2>

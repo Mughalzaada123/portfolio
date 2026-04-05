@@ -11,7 +11,7 @@ import Navbar from "../components/Navbar";
 function Home() {
   return (
     // overflow-x-hidden is crucial to stop mobile horizontal scrolling
-    <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth bg-white overflow-x-hidden">
+    <div className="h-screen overflow-y-scroll  snap-y snap-mandatory scroll-smooth bg-white ">
       <Hero />
       <Services />
       <Projects />

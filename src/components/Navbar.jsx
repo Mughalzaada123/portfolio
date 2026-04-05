@@ -7,6 +7,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
+  // Route change hone par mobile menu band karne ke liye
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
@@ -20,6 +21,7 @@ function Navbar() {
     { name: "Contact Us", path: "/contactus" },
   ];
 
+  // Mobile menu links ke animation variants
   const containerVars = {
     initial: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
     animate: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } }
@@ -36,19 +38,20 @@ function Navbar() {
   };
 
   return (
-<div className="fixed top-0 left-0 w-full pt-3 z-50 pointer-events-none">
-        <motion.nav
+    <div className="fixed top-0 left-0 w-full pt-3 z-50 pointer-events-none px-4">
+      <motion.nav
+        // Width animate hogi lekin borderRadius ab fixed rahega
         animate={{
           width: isOpen ? "100%" : "auto",
-          borderRadius: isOpen ? "24px" : "100px",
         }}
         transition={{ type: "spring", stiffness: 400, damping: 35 }}
-        className="mx-auto border border-gray-100 shadow-2xl pointer-events-auto bg-white/95 backdrop-blur-md overflow-hidden md:w-max min-w-[280px] lg:w-4/5 lg:max-w-7xl"
+        // "rounded-[35px]" yahan constant rakha gaya hai taaki corners animate na hon
+        className="mx-auto border border-gray-100 shadow-2xl pointer-events-auto bg-white/95 backdrop-blur-md overflow-hidden md:w-max min-w-[280px] lg:w-4/5 lg:max-w-7xl rounded-[35px]"
       >
         <div className="px-5 py-2.5">
           <div className="flex justify-between items-center h-10 md:h-12">
             
-            {/* Logo */}
+            {/* Logo Section */}
             <Link to="/" className="flex items-center gap-2 group cursor-pointer shrink-0">
               <motion.div 
                 whileHover={{ rotate: 180, scale: 1.1 }}
@@ -61,7 +64,7 @@ function Navbar() {
               </h1>
             </Link>
 
-            {/* Desktop Menu */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
               {menuItems.map((item) => {
                 const isActive = location.pathname === item.path;
@@ -86,7 +89,7 @@ function Navbar() {
               })}
             </div>
 
-            {/* Mobile Toggle */}
+            {/* Mobile Menu Toggle Button */}
             <div className="md:hidden flex items-center">
               <motion.button
                 onClick={() => setIsOpen(!isOpen)}
@@ -108,7 +111,7 @@ function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Dropdown Menu */}
           <AnimatePresence>
             {isOpen && (
               <motion.div 
@@ -118,7 +121,6 @@ function Navbar() {
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 className="md:hidden overflow-hidden"
               >
-                {/* Horizontal Padding (px-4) added to prevent clipping */}
                 <motion.div 
                   variants={containerVars}
                   initial="initial"
