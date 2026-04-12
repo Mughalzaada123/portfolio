@@ -86,7 +86,7 @@ const CTA = () => {
 
             <div className="space-y-6">
               {[
-                { icon: Mail, label: "Email Me", value: "ahmed@mughal.dev", color: "blue" },
+                { icon: Mail, label: "Email Me", value: "mrahmedrazabaig@gmail.com", color: "blue" },
                 { icon: MapPin, label: "Location", value: "Karachi, Pakistan", color: "purple" },
                 { icon: Phone, label: "Phone", value: "+92 300 1234567", color: "green" }
               ].map((item, idx) => (
