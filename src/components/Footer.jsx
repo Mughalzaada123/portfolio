@@ -39,8 +39,8 @@ function Footer() {
             
             <div className="h-4 w-[1px] bg-slate-200 dark:bg-white/10 hidden md:block"></div>
             
-            <a href="mailto:contact@devsol.pk" className="text-slate-500 dark:text-slate-400 text-[10px] font-bold hover:text-blue-600 transition-colors">
-              contact@devsol.pk
+            <a href="mailto:mrahmedrazabaig@gmail.com" className="text-slate-500 dark:text-slate-400 text-[10px] font-bold hover:text-blue-600 transition-colors">
+              mrahmedrazabaig@gmail.com
             </a>
             
             <button 
