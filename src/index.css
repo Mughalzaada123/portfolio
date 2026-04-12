@@ -28,7 +28,11 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  transition: background-color 0.5s ease;
+}
+
+/* Single smooth theme transition on the root only */
+html {
+  transition: background-color 0.25s ease;
 }
 
 
@@ -94,4 +98,15 @@ body {
 .group:hover .animate-marquee,
 .group:hover .animate-marquee-reverse {
   animation-play-state: paused;
+}
+
+/* Theme Toggle Animations */
+@keyframes starPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.5); }
+}
+
+@keyframes rayRotate {
+  from { transform: rotate(0deg) translateX(8px); }
+  to   { transform: rotate(360deg) translateX(8px); }
 }

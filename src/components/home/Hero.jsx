@@ -3,7 +3,8 @@ import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ArrowUpRight, Sparkles, Send } from 'lucide-react';
 import { FiGithub, FiLinkedin } from 'react-icons/fi';
-import heroImg from "../../assets/hero.png"; // Ensure path is correct
+import heroImg from "../../assets/hero.png";
+import { useAppReady } from '../../context/AppReadyContext';
 
 const HeroSection = () => {
   const container = useRef(null);
@@ -15,7 +16,12 @@ const HeroSection = () => {
   const badgeRef = useRef(null);
   const mobileDockRef = useRef(null);
 
+  const appReady = useAppReady();
+
   useGSAP(() => {
+    // Only run entrance animations once the loader has exited
+    if (!appReady) return;
+
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
     // Entrance Animation
@@ -44,53 +50,29 @@ const HeroSection = () => {
 
     // Background Blobs Floating
     gsap.to(blob1Ref.current, {
-      scale: 1.2,
-      x: 30,
-      y: -20,
-      duration: 10,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
+      scale: 1.2, x: 30, y: -20,
+      duration: 10, repeat: -1, yoyo: true, ease: "sine.inOut"
     });
-
     gsap.to(blob2Ref.current, {
-      scale: 1.1,
-      x: -40,
-      y: 40,
-      duration: 12,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 1
+      scale: 1.1, x: -40, y: 40,
+      duration: 12, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 1
     });
 
-    // Dynamic Background Shape Rotation & Morph
+    // Background Shape Rotation
     gsap.to(shapeRef.current, {
-      rotate: 360,
-      duration: 20,
-      repeat: -1,
-      ease: "none"
+      rotate: 360, duration: 20, repeat: -1, ease: "none"
     });
 
-    // Main Image Floating
+    // Image Floating
     gsap.to(imageRef.current, {
-      y: -15,
-      duration: 4,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
+      y: -15, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut"
     });
 
     // Badge Floating
     gsap.to(badgeRef.current, {
-      y: 10,
-      duration: 5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 0.5
+      y: 10, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5
     });
-  }, { scope: container });
+  }, { scope: container, dependencies: [appReady] });
 
   const handleHover = (e, scale = 1.05, shadow = true) => {
     gsap.to(e.currentTarget, {
@@ -123,7 +105,7 @@ const HeroSection = () => {
     <div
       ref={container}
       id="hero"
-      className="relative w-full min-h-screen bg-slate-50 dark:bg-[#030712] flex items-center justify-center overflow-hidden pt-8 md:pt-20 transition-colors duration-700"
+      className="relative w-full min-h-screen bg-slate-50 dark:bg-[#030712] flex items-center justify-center overflow-hidden pt-8 md:pt-20"
     >
       {/* --- PREMIUM BACKGROUND ELEMENTS --- */}
       <div className="absolute inset-0 z-0">

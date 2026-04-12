@@ -65,7 +65,7 @@ const CTA = () => {
   };
 
   return (
-    <div ref={container} className="w-full py-24 transition-colors duration-500 bg-white dark:bg-slate-950 relative">
+    <div ref={container} className="w-full py-24 bg-white dark:bg-slate-950 relative">
       <div className="w-[90%] md:w-[85%] max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
@@ -91,7 +91,7 @@ const CTA = () => {
                 { icon: Phone, label: "Phone", value: "+92 300 1234567", color: "green" }
               ].map((item, idx) => (
                 <div key={idx} className="cta-info-item flex items-center gap-6 group">
-                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center border border-slate-200 dark:border-white/5 shadow-sm group-hover:bg-[var(--primary-600)] transition-colors duration-500">
+                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center border border-slate-200 dark:border-white/5 shadow-sm group-hover:bg-[var(--primary-600)]">
                     <item.icon className="text-[var(--primary-600)] group-hover:text-white" size={24} />
                   </div>
                   <div>

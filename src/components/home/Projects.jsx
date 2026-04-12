@@ -58,7 +58,7 @@ function Projects() {
 
 
   return (
-    <div ref={container} className="w-full py-24 transition-colors duration-500 bg-white dark:bg-slate-950 relative">
+    <div ref={container} className="w-full py-24 bg-white dark:bg-slate-950 relative">
       <div className="mx-auto w-[85%] max-w-7xl">
 
         {/* Header */}
@@ -94,7 +94,7 @@ function Projects() {
                         Project {project.id}
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/0 transition-colors duration-500" />
+                    <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/0" />
                   </div>
                 ) : (
                   <div className="absolute inset-0 bg-slate-200/50 dark:bg-slate-800 animate-[pulse_2s_ease-in-out_infinite] flex items-center justify-center">

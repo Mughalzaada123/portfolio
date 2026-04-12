@@ -46,7 +46,7 @@ function Home() {
   return (
     <div
       ref={containerRef}
-      className="bg-white dark:bg-slate-950 relative overflow-x-hidden transition-colors duration-500"
+      className="bg-white dark:bg-slate-950 relative overflow-x-hidden"
     >
       <RobotGuide activeSection={activeSection} />
 

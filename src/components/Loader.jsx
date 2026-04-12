@@ -1,29 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-const Loader = () => {
+const Loader = ({ done }) => {
   const loaderRef = useRef(null);
 
+  // Fade in on mount
   useGSAP(() => {
-    // Entrance
-    gsap.fromTo(loaderRef.current, 
-      { opacity: 0 }, 
-      { opacity: 1, duration: 0.5 }
+    gsap.fromTo(loaderRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.4 }
     );
-
-    // We can't easily handle "exit" here if App.jsx unmounts it immediately.
-    // However, we can use a cleanup function or just accept it's unmounted.
-    // For a cleaner transition, we'll just handle the entrance and internal pulse.
-    return () => {
-      // Cleanup if needed
-    };
   }, { scope: loaderRef });
 
+  // Fade out when App signals done
+  useEffect(() => {
+    if (done && loaderRef.current) {
+      gsap.to(loaderRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.inOut',
+      });
+    }
+  }, [done]);
+
   return (
-    <div 
+    <div
       ref={loaderRef}
-      className="fixed inset-0 z-[9999999] flex items-center justify-center bg-[#e0e5ec] dark:bg-slate-950 transition-colors duration-500"
+      className="fixed inset-0 z-[9999999] flex items-center justify-center bg-[#e0e5ec] dark:bg-slate-950"
     >
       <section className="loader">
         <div className="slider" style={{ "--i": 0 }}></div>
@@ -68,31 +72,21 @@ const Loader = () => {
           height: 20px;
           width: 20px;
           border-radius: 100%;
-          box-shadow: inset 0px 0px 0px rgba(0, 0, 0, 0.3), 0px 420px 0 400px var(--primary-600, #2697f3),
+          box-shadow: inset 0px 0px 0px rgba(0, 0, 0, 0.3),
+            0px 420px 0 400px var(--primary-600, #2697f3),
             inset 0px 0px 0px rgba(0, 0, 0, 0.1);
           animation: animate_2 2.5s ease-in-out infinite;
           animation-delay: calc(-0.5s * var(--i));
         }
 
         @keyframes animate_2 {
-          0% {
-            transform: translateY(250px);
-            filter: hue-rotate(0deg);
-          }
-
-          50% {
-            transform: translateY(0);
-          }
-
-          100% {
-            transform: translateY(250px);
-            filter: hue-rotate(180deg);
-          }
+          0%   { transform: translateY(250px); filter: hue-rotate(0deg); }
+          50%  { transform: translateY(0); }
+          100% { transform: translateY(250px); filter: hue-rotate(180deg); }
         }
       `}</style>
     </div>
   );
-}
+};
 
 export default Loader;
-

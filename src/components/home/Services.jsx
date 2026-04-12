@@ -59,7 +59,7 @@ function Services() {
 
 
   return (
-    <div ref={container} className="w-full py-20 transition-colors duration-500 relative">
+    <div ref={container} className="w-full py-20 relative">
       <div className="mx-auto w-[85%] max-w-7xl">
         <h2
           ref={headingRef}

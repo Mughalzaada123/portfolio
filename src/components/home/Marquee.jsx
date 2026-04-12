@@ -12,7 +12,7 @@ const Marquee = () => {
   ];
 
   return (
-    <section className="relative py-10 overflow-hidden bg-white dark:bg-[#030712] transition-colors duration-700">
+    <section className="relative py-10 overflow-hidden bg-white dark:bg-[#030712]">
       {/* Mask effect on edges */}
       <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white dark:from-[#030712] to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white dark:from-[#030712] to-transparent z-10 pointer-events-none" />
@@ -48,7 +48,7 @@ const Marquee = () => {
           <div className="flex items-center gap-12 whitespace-nowrap animate-marquee-reverse group-hover:pause">
             {row2.map((action, i) => (
               <div key={i} className="flex items-center gap-12">
-                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/30 dark:text-blue-400/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-500 cursor-default italic">
+                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/30 dark:text-blue-400/20 hover:text-blue-600 dark:hover:text-blue-400 cursor-default italic">
                   {action}
                 </span>
                 <span className="text-slate-900/10 dark:text-white/10 text-2xl md:text-4xl">✦</span>
@@ -59,7 +59,7 @@ const Marquee = () => {
           <div className="flex items-center gap-12 whitespace-nowrap animate-marquee-reverse group-hover:pause" aria-hidden="true">
             {row2.map((action, i) => (
               <div key={i} className="flex items-center gap-12">
-                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/30 dark:text-blue-400/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-500 cursor-default italic">
+                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/30 dark:text-blue-400/20 hover:text-blue-600 dark:hover:text-blue-400 cursor-default italic">
                   {action}
                 </span>
                 <span className="text-slate-900/10 dark:text-white/10 text-2xl md:text-4xl">✦</span>

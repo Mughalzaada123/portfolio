@@ -6,7 +6,7 @@ function Footer() {
   };
 
   return (
-    <footer className="relative bg-white dark:bg-[#030712] text-slate-900 dark:text-white py-8 border-t border-slate-100 dark:border-white/5 transition-colors duration-700 overflow-hidden">
+    <footer className="relative bg-white dark:bg-[#030712] text-slate-900 dark:text-white py-8 border-t border-slate-100 dark:border-white/5 overflow-hidden">
       {/* Decorative Background Element */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-blue-600/5 blur-[80px] rounded-full pointer-events-none" />
       

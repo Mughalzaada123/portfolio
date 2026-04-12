@@ -86,7 +86,7 @@ function About() {
   };
 
   return (
-    <div ref={container} className="relative w-full py-24 transition-colors duration-500 bg-white dark:bg-slate-950">
+    <div ref={container} className="relative w-full py-24 bg-white dark:bg-slate-950">
       <div className="container mx-auto px-6 md:px-12 lg:px-20 max-w-7xl">
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">

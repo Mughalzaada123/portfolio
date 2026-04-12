@@ -61,7 +61,7 @@ function Testimonials() {
   };
 
   return (
-    <div ref={container} className="w-full py-24 bg-white dark:bg-slate-950 transition-colors duration-500 relative">
+    <div ref={container} className="w-full py-24 bg-white dark:bg-slate-950 relative">
       <div className="mx-auto w-[85%] max-w-7xl">
 
 

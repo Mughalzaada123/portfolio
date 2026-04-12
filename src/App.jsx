@@ -3,32 +3,50 @@ import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 import ThemeCustomizer from "./components/ThemeCustomizer";
-import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import { AppReadyContext } from "./context/AppReadyContext";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loaderVisible, setLoaderVisible] = useState(true);
+  const [loaderDone, setLoaderDone] = useState(false);
+  const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2500); // Loader plays for 2.5s
-    return () => clearTimeout(timer);
+    // Signal loader to start fading at 2.5s
+    const fadeTimer = setTimeout(() => setLoaderDone(true), 2500);
+
+    // Unmount loader and reveal app at 3s (after 0.5s fade)
+    const removeTimer = setTimeout(() => {
+      setLoaderVisible(false);
+      setAppReady(true); // ← Hero and other sections now start animations
+    }, 3000);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
   }, []);
 
   return (
     <BrowserRouter>
-      {/* Global Initial Loading Screen */}
-      {loading && <Loader />}
+      {/* Loader sits on top while visible */}
+      {loaderVisible && <Loader done={loaderDone} />}
 
-      {/* Main App (hidden until loading finishes so that animations trigger smoothly afterwards) */}
-      {!loading && (
-        <div className="relative w-full">
+      {/* Main app always mounted so React tree is ready, but invisible until loader exits */}
+      <AppReadyContext.Provider value={appReady}>
+        <div
+          className="relative w-full"
+          style={{
+            opacity: appReady ? 1 : 0,
+            transition: appReady ? 'opacity 0.4s ease' : 'none',
+            pointerEvents: appReady ? 'auto' : 'none',
+          }}
+        >
           <Navbar />
           <AppRoutes />
           <ThemeCustomizer />
         </div>
-      )}
+      </AppReadyContext.Provider>
     </BrowserRouter>
   );
 }
