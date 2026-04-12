@@ -1,158 +1,197 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState("#hero");
+  const navRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   const location = useLocation();
 
-  // Route change hone par mobile menu band karne ke liye
+  const menuItems = [
+    { name: "Home", path: "#hero" },
+    { name: "Services", path: "#services" },
+    { name: "Projects", path: "#projects" },
+    { name: "Testimonials", path: "#testimonials" },
+    { name: "About Us", path: "#about" },
+    { name: "Contact", path: "#cta" },
+  ];
+
+  // Dynamically track active section on scroll using ScrollTrigger
+  useGSAP(() => {
+    const sections = document.querySelectorAll("section[id], div[id='hero']");
+    
+    sections.forEach((section) => {
+      gsap.to(section, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top center",
+          end: "bottom center",
+          onToggle: (self) => {
+            if (self.isActive) {
+              setActiveHash(`#${section.id}`);
+            }
+          }
+        }
+      });
+    });
+  }, []);
+
+
+  useEffect(() => {
+    if (location.hash) {
+      setActiveHash(location.hash);
+    }
+  }, [location.hash]);
+
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
 
-  const menuItems = [
-    { name: "Home", path: "/" },
-    { name: "About Us", path: "/aboutus" },
-    { name: "Services", path: "/services" },
-    { name: "Careers", path: "/careers" },
-    { name: "FAQ", path: "/faq" },
-    { name: "Contact Us", path: "/contactus" },
-  ];
+  useGSAP(() => {
+    gsap.from(navRef.current, {
+      y: -50,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.2
+    });
+  }, []);
 
-  // Mobile menu links ke animation variants
-  const containerVars = {
-    initial: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
-    animate: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } }
+  useGSAP(() => {
+    if (isOpen) {
+      gsap.fromTo(mobileMenuRef.current,
+        { height: 0, opacity: 0 },
+        { height: "auto", opacity: 1, duration: 0.4, ease: "power2.out" }
+      );
+      gsap.from(".mobile-link", {
+        y: 15,
+        opacity: 0,
+        stagger: 0.05,
+        duration: 0.4,
+        ease: "power2.out",
+        delay: 0.1
+      });
+    } else {
+      gsap.to(mobileMenuRef.current, { 
+        height: 0, 
+        opacity: 0, 
+        duration: 0.3, 
+        ease: "power2.in" 
+      });
+    }
+  }, [isOpen]);
+
+  const handleLogoHover = (e) => {
+    gsap.to(e.currentTarget, { rotate: 180, scale: 1.1, duration: 0.5 });
   };
 
-  const linkVars = {
-    initial: { y: 15, opacity: 0 },
-    animate: { 
-      y: 0, 
-      opacity: 1, 
-      transition: { type: "spring", stiffness: 300, damping: 25 } 
-    },
-    exit: { y: 10, opacity: 0, transition: { duration: 0.2 } }
+  const handleLogoLeave = (e) => {
+    gsap.to(e.currentTarget, { rotate: 0, scale: 1, duration: 0.5 });
+  };
+
+  const handleLinkTap = (e) => {
+    gsap.to(e.currentTarget, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 });
   };
 
   return (
     <div className="fixed top-0 left-0 w-full pt-3 z-50 pointer-events-none px-4">
-      <motion.nav
-        // Width animate hogi lekin borderRadius ab fixed rahega
-        animate={{
-          width: isOpen ? "100%" : "auto",
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 35 }}
-        // "rounded-[35px]" yahan constant rakha gaya hai taaki corners animate na hon
-        className="mx-auto border border-gray-100 shadow-2xl pointer-events-auto bg-white/95 backdrop-blur-md overflow-hidden md:w-max min-w-[280px] lg:w-4/5 lg:max-w-7xl rounded-[35px]"
+      <nav
+        ref={navRef}
+        className="mx-auto border border-gray-100 dark:border-slate-700/50 shadow-2xl pointer-events-auto bg-white/95 dark:bg-slate-900/80 backdrop-blur-md overflow-hidden min-w-[280px] w-auto max-w-7xl rounded-[35px]"
+        style={{ width: isOpen ? "100%" : "auto" }}
       >
         <div className="px-5 py-2.5">
           <div className="flex justify-between items-center h-10 md:h-12">
-            
+
             {/* Logo Section */}
             <Link to="/" className="flex items-center gap-2 group cursor-pointer shrink-0">
-              <motion.div 
-                whileHover={{ rotate: 180, scale: 1.1 }}
+              <div
+                onMouseEnter={handleLogoHover}
+                onMouseLeave={handleLogoLeave}
                 className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-blue-600 text-white font-black text-base shadow-lg"
               >
                 AR
-              </motion.div>
-              <h1 className="font-black tracking-tighter text-gray-900 text-lg md:text-xl">
+              </div>
+              <h1 className="font-black tracking-tighter text-gray-900 dark:text-white text-lg md:text-xl">
                 Ahmed Raza <span className="text-blue-600">Dev</span>
               </h1>
             </Link>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
               {menuItems.map((item) => {
-                const isActive = location.pathname === item.path;
+                const isActive = activeHash === item.path;
                 return (
-                  <Link
+                  <a
                     key={item.name}
-                    to={item.path}
+                    href={item.path}
+                    onClick={() => setActiveHash(item.path)}
                     className="relative px-4 py-2 text-[14px] lg:text-[15px] font-black tracking-tight transition-colors duration-300"
                   >
-                    <span className={`relative z-10 ${isActive ? "text-white" : "text-gray-700 hover:text-blue-600"}`}>
+                    <span className={`relative z-10 ${isActive ? "text-white" : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
                       {item.name}
                     </span>
                     {isActive && (
-                      <motion.div
-                        layoutId="activePill"
-                        className="absolute inset-0 bg-blue-600 rounded-full shadow-lg"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      <div
+                        className="active-pill absolute inset-0 bg-blue-600 rounded-full shadow-lg"
                       />
                     )}
-                  </Link>
+                  </a>
                 );
               })}
+              <div className="ml-4 pl-4 border-l border-gray-100 dark:border-slate-800 relative z-30 pointer-events-auto">
+                <ThemeToggle />
+              </div>
             </div>
 
-            {/* Mobile Menu Toggle Button */}
-            <div className="md:hidden flex items-center">
-              <motion.button
+            {/* Mobile Actions (Toggle + Theme) */}
+            <div className="md:hidden flex items-center gap-3 relative z-30 pointer-events-auto">
+              <ThemeToggle />
+              <button
                 onClick={() => setIsOpen(!isOpen)}
-                whileTap={{ scale: 0.9 }}
-                className="p-2 text-gray-900 focus:outline-none"
+                onMouseDown={handleLinkTap}
+                className="p-2 text-gray-900 dark:text-white focus:outline-none flex items-center justify-center transition-transform"
               >
-                <AnimatePresence mode="wait">
-                  {isOpen ? (
-                    <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-                      <FiX size={24} />
-                    </motion.div>
-                  ) : (
-                    <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-                      <FiMenu size={24} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
+                {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+              </button>
             </div>
           </div>
 
           {/* Mobile Dropdown Menu */}
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div 
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="md:hidden overflow-hidden"
-              >
-                <motion.div 
-                  variants={containerVars}
-                  initial="initial"
-                  animate="animate"
-                  exit="initial"
-                  className="flex flex-col gap-1.5 pb-4 mt-3 border-t border-gray-50 pt-4 px-2"
-                >
-                  {menuItems.map((item) => {
-                    const isActive = location.pathname === item.path;
-                    return (
-                      <motion.div key={item.name} variants={linkVars}>
-                        <Link
-                          to={item.path}
-                          className={`w-full block text-center py-3 rounded-xl text-base font-black tracking-tight transition-all
-                            ${isActive 
-                              ? "bg-blue-600 text-white shadow-md" 
-                              : "text-gray-700 active:bg-blue-50"
-                            }`}
-                        >
-                          {item.name}
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div
+            ref={mobileMenuRef}
+            className="md:hidden overflow-hidden"
+            style={{ height: 0, opacity: 0 }}
+          >
+            <div className="flex flex-col gap-1.5 pb-4 mt-3 border-t border-gray-50 pt-4 px-2">
+              {menuItems.map((item) => {
+                const isActive = location.hash === item.path || (!location.hash && item.path === "#hero");
+                return (
+                  <div key={item.name} className="mobile-link">
+                    <a
+                      href={item.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`w-full block text-center py-3 rounded-xl text-base font-black tracking-tight transition-all
+                        ${isActive
+                          ? "bg-blue-600 text-white shadow-md"
+                          : "text-gray-700 active:bg-blue-50 dark:text-gray-300 dark:active:bg-slate-800"
+                        }`}
+                    >
+                      {item.name}
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </motion.nav>
+      </nav>
     </div>
   );
 }
 
-export default Navbar;
+export default Navbar;

@@ -1,77 +1,62 @@
-import { FiPhone, FiMail, FiFacebook, FiTwitter, FiLinkedin, FiInstagram } from "react-icons/fi";
+import { FiPhone, FiMail, FiFacebook, FiTwitter, FiLinkedin, FiInstagram, FiGithub, FiArrowUp } from "react-icons/fi";
 
 function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="snap-start bg-gray-900 text-white py-12">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Contact Info */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold">Contact</h2>
-          <div className="flex items-center gap-2">
-            <FiPhone className="text-blue-400" />
-            <span>+92 3202108037</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FiMail className="text-purple-400" />
-            <span>contact@devsol.pk</span>
-          </div>
-        </div>
-
-        {/* Quick Links */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold">Quick Links</h2>
-          <div className="flex flex-col gap-2">
-            {["About Us", "Services", "Careers", "FAQ", "Contact Us"].map((link, idx) => (
-              <a
-                key={idx}
-                href={`/${link.toLowerCase().replace(/\s+/g, "")}`}
-                className="hover:text-blue-400 transition"
-              >
-                {link}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Social & Newsletter */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold">Follow Me</h2>
-          <div className="flex gap-4 text-2xl">
-            <a href="#" className="hover:text-blue-400 transition">
-              <FiFacebook />
-            </a>
-            <a href="#" className="hover:text-blue-400 transition">
-              <FiTwitter />
-            </a>
-            <a href="#" className="hover:text-blue-400 transition">
-              <FiLinkedin />
-            </a>
-            <a href="#" className="hover:text-blue-400 transition">
-              <FiInstagram />
-            </a>
-          </div>
-          <div className="mt-4">
-            <h3 className="font-semibold mb-2">Subscribe to Newsletter</h3>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-3 py-2 rounded-l-full text-gray-900 focus:outline-none"
-              />
-              <button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 rounded-r-full hover:from-blue-600 hover:to-purple-600 transition">
-                Subscribe
-              </button>
+    <footer className="relative bg-white dark:bg-[#030712] text-slate-900 dark:text-white py-8 border-t border-slate-100 dark:border-white/5 transition-colors duration-700 overflow-hidden">
+      {/* Decorative Background Element */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-blue-600/5 blur-[80px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          
+          {/* Brand & Socials */}
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black shadow-lg shadow-blue-600/20">
+                AR
+              </div>
+              <span className="text-lg font-black tracking-tighter shrink-0">Ahmed Raza <span className="text-blue-600">Dev</span></span>
+            </div>
+            
+            <div className="flex gap-2">
+              {[FiGithub, FiLinkedin, FiTwitter, FiInstagram].map((Icon, i) => (
+                <a key={i} href="#" className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-white/5 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all duration-300 group">
+                  <Icon size={14} className="transition-transform group-hover:scale-110" />
+                </a>
+              ))}
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Footer Bottom */}
-      <div className="mt-12 text-center text-gray-500 text-sm">
-        &copy; {new Date().getFullYear()} Ahmed Raza Dev. All rights reserved.
+          {/* Copyright & Info */}
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <p className="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] opacity-80">
+              &copy; {new Date().getFullYear()} Ahmed Raza Dev
+            </p>
+            
+            <div className="h-4 w-[1px] bg-slate-200 dark:bg-white/10 hidden md:block"></div>
+            
+            <a href="mailto:contact@devsol.pk" className="text-slate-500 dark:text-slate-400 text-[10px] font-bold hover:text-blue-600 transition-colors">
+              contact@devsol.pk
+            </a>
+            
+            <button 
+              onClick={scrollToTop}
+              className="group flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-full hover:bg-slate-900 dark:hover:bg-white dark:hover:text-slate-900 transition-all duration-300 shadow-lg shadow-blue-600/30"
+            >
+              <span className="text-[10px] font-black uppercase tracking-widest">Back To Top</span>
+              <FiArrowUp size={14} className="group-hover:-translate-y-1 transition-transform" />
+            </button>
+          </div>
+
+        </div>
       </div>
     </footer>
   );
 }
+
 
 export default Footer;

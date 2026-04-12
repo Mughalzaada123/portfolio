@@ -1,28 +1,180 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Send, Mail, MapPin, Phone } from "lucide-react";
 
-function CTA() {
+gsap.registerPlugin(ScrollTrigger);
+
+const CTA = () => {
+  const container = useRef(null);
+  const leftSideRef = useRef(null);
+  const formContainerRef = useRef(null);
+
+  useGSAP(() => {
+    // Left side entrance
+    gsap.from(".cta-info-item", {
+      opacity: 0,
+      x: -20,
+      stagger: 0.1,
+      duration: 0.6,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: leftSideRef.current,
+        start: "top 90%",
+      }
+    });
+
+    // Form entrance
+    gsap.from(formContainerRef.current, {
+      opacity: 0,
+      y: 50,
+      scale: 0.95,
+      duration: 0.8,
+      delay: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: formContainerRef.current,
+        start: "top 85%",
+        onComplete: () => {
+          gsap.set(".cta-info-item", { clearProps: "all" });
+          gsap.set(formContainerRef.current, { clearProps: "all" });
+        }
+      }
+    });
+  }, { scope: container });
+
+  const handleInputFocus = (e) => {
+    gsap.to(e.currentTarget, { scale: 1.01, duration: 0.3 });
+  };
+
+  const handleInputBlur = (e) => {
+    gsap.to(e.currentTarget, { scale: 1, duration: 0.3 });
+  };
+
+  const handleBtnHover = (e) => {
+    gsap.to(e.currentTarget, { y: -5, scale: 1.02, duration: 0.3, ease: "power2.out" });
+  };
+
+  const handleBtnLeave = (e) => {
+    gsap.to(e.currentTarget, { y: 0, scale: 1, duration: 0.3, ease: "power2.out" });
+  };
+
+  const handleBtnTap = (e) => {
+    gsap.to(e.currentTarget, { scale: 0.98, duration: 0.1, yoyo: true, repeat: 1 });
+  };
+
   return (
-    <section className="h-screen snap-start flex items-center justify-center px-6">
-      <div className="max-w-5xl mx-auto w-full">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }} 
-          whileInView={{ opacity: 1, scale: 1 }} 
-          className="bg-blue-600 rounded-[60px] p-12 md:p-24 text-center text-white shadow-2xl relative overflow-hidden"
-        >
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 blur-[100px] rounded-full -ml-32 -mt-32"></div>
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-8xl font-black tracking-tighter leading-none mb-10">
-              Ready to build <br/> your dream?
-            </h2>
-            <button className="px-12 py-5 bg-white text-blue-600 font-black text-2xl rounded-full hover:bg-slate-900 hover:text-white transition-all active:scale-95 shadow-xl">
-              Let's Talk Today
-            </button>
+    <div ref={container} className="w-full py-24 transition-colors duration-500 bg-white dark:bg-slate-950 relative">
+      <div className="w-[90%] md:w-[85%] max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* LEFT SIDE: TEXT & INFO */}
+          <div 
+            ref={leftSideRef}
+            className="space-y-6 md:space-y-12"
+          >
+            <div className="space-y-6">
+              <h3 className="cta-info-item text-sm font-black uppercase tracking-[0.4em] text-[var(--primary-600)]">Get in Touch</h3>
+              <h2 className="cta-info-item text-4xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9]">
+                Let's build <br /> <span className="text-[var(--primary-600)]">your dream.</span>
+              </h2>
+              <p className="cta-info-item text-slate-600 dark:text-slate-400 text-lg md:text-xl font-medium max-w-md leading-relaxed">
+                Have a project in mind? Looking for a partner to build something extraordinary? Send me a message.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {[
+                { icon: Mail, label: "Email Me", value: "ahmed@mughal.dev", color: "blue" },
+                { icon: MapPin, label: "Location", value: "Karachi, Pakistan", color: "purple" },
+                { icon: Phone, label: "Phone", value: "+92 300 1234567", color: "green" }
+              ].map((item, idx) => (
+                <div key={idx} className="cta-info-item flex items-center gap-6 group">
+                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-900 flex items-center justify-center border border-slate-200 dark:border-white/5 shadow-sm group-hover:bg-[var(--primary-600)] transition-colors duration-500">
+                    <item.icon className="text-[var(--primary-600)] group-hover:text-white" size={24} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400">{item.label}</p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white">{item.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </motion.div>
+
+          {/* RIGHT SIDE: CONTACT FORM */}
+          <div 
+            ref={formContainerRef}
+            className="relative"
+          >
+            {/* Background Blob for Form */}
+            <div className="absolute -inset-10 bg-[var(--primary-600)]/10 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            <form className="relative bg-white/70 dark:bg-slate-900/50 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[2rem] md:rounded-[2.5rem] pt-10 pb-6 md:pt-16 md:pb-12 px-6 md:px-12 space-y-4 md:space-y-6 shadow-2xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-[var(--primary-600)] ml-2">Name</label>
+                  <input 
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    type="text" 
+                    placeholder="John Doe"
+                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-[var(--primary-600)] ml-2">Email</label>
+                  <input 
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    type="email" 
+                    placeholder="john@example.com"
+                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--primary-600)] ml-2">Subject</label>
+                <input 
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  type="text" 
+                  placeholder="Project Inquiry"
+                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--primary-600)] ml-2">Message</label>
+                <textarea 
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  rows="4"
+                  placeholder="Tell me about your project..."
+                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white resize-none font-bold"
+                ></textarea>
+              </div>
+
+              <button
+                onMouseEnter={handleBtnHover}
+                onMouseLeave={handleBtnLeave}
+                onMouseDown={handleBtnTap}
+                style={{ backgroundColor: 'var(--primary-600)' }}
+                className="w-full text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-shadow hover:shadow-[0_20px_40px_-10px_var(--primary-600)] shadow-xl mt-4"
+              >
+                Send Message <Send size={18} />
+              </button>
+            </form>
+          </div>
+
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
 
+
 export default CTA;
+

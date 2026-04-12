@@ -1,121 +1,171 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FiPhone, FiMail, FiMapPin, FiClock, FiSend } from "react-icons/fi";
-import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Footer from "../components/Footer";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Contact() {
+  const containerRef = useRef(null);
+  const heroRef = useRef(null);
+  const leftColRef = useRef(null);
+  const rightColRef = useRef(null);
+
+  useGSAP(() => {
+    // Hero entrance
+    gsap.from(heroRef.current, {
+      opacity: 0,
+      y: -20,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Info card entrance (Left)
+    gsap.from(leftColRef.current, {
+      opacity: 0,
+      x: -30,
+      duration: 0.8,
+      delay: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: leftColRef.current,
+        start: "top 85%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Form entrance (Right)
+    gsap.from(rightColRef.current, {
+      opacity: 0,
+      x: 30,
+      duration: 0.8,
+      delay: 0.3,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: rightColRef.current,
+        start: "top 85%",
+        toggleActions: "play none none reverse"
+      }
+    });
+  }, { scope: containerRef });
+
+  const handleBtnTap = (e) => {
+    gsap.to(e.currentTarget, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 });
+  };
+
   return (
-    // FIX: lg:h-[calc(100vh-140px)] is based on TopHeader+Navbar height.
-    // pt-4 ensures content is brought up near Navbar.
-<div className="min-h-[calc(100vh-130px)] flex items-start justify-center pt-8 pb-8 px-4 sm:px-6 lg:px-8">    <div className="max-w-7xl w-full mx-auto">
-        
-        {/* Compact Header Section - Margins Reduced */}
-        <motion.div 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-6 lg:mb-10"
-        >
-          <span className="text-blue-600 font-black uppercase tracking-widest text-[10px] md:text-xs mb-1 block">
-            Get In Touch
-          </span>
-          <h1 className="text-3xl md:text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-none">
-            Let’s Build Something <span className="text-blue-600">Great.</span>
-          </h1>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+    <div 
+      ref={containerRef}
+      className="bg-white dark:bg-slate-950 transition-colors duration-500 relative"
+    >
+      
+      {/* 1. Main Contact Section: Takes full screen */}
+      <section className="snap-start min-h-screen flex items-center justify-center pt-24 pb-12 px-6 lg:px-12">
+        <div className="max-w-[1300px] w-full mx-auto">
           
-          {/* Left Column: Contact Info Card */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-4 bg-[#0f172a] rounded-[32px] p-6 lg:p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-center"
+          {/* Re-expanded Hero Heading */}
+          <div 
+            ref={heroRef}
+            className="text-center mb-12 lg:mb-20"
           >
-            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600/20 blur-3xl rounded-full -mr-12 -mt-12"></div>
+            <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-xs md:text-sm mb-4 block">
+              Contact Experience
+            </span>
+            <h1 className="text-4xl md:text-7xl lg:text-8xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9] mb-8">
+              Let’s Build Something <br className="hidden lg:block" />
+              <span className="text-blue-600">Great Together.</span>
+            </h1>
+            <p className="max-w-2xl mx-auto text-slate-600 dark:text-slate-400 font-bold text-lg md:text-xl leading-relaxed">
+              Engineering visions into legendary digital realities. Let's start the conversation.
+            </p>
+          </div>
+
+          {/* Main Grid: items-stretch to match heights */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
             
-            <h3 className="text-xl font-black mb-8 relative z-10 uppercase tracking-tight">Contact Info</h3>
-            
-            <div className="space-y-6 relative z-10">
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-all duration-300">
-                  <FiPhone className="w-5 h-5 text-blue-400 group-hover:text-white" />
-                </div>
-                <div>
-                  <p className="text-slate-400 text-[10px] font-black uppercase tracking-wider">Call</p>
-                  <a href="tel:+923202108037" className="text-sm font-bold tracking-tight">+92 320 2108037</a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-all duration-300">
-                  <FiMail className="w-5 h-5 text-blue-400 group-hover:text-white" />
-                </div>
-                <div>
-                  <p className="text-slate-400 text-[10px] font-black uppercase tracking-wider">Email</p>
-                  <a href="mailto:contact@devsol.pk" className="text-sm font-bold tracking-tight">contact@devsol.pk</a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-all duration-300">
-                  <FiMapPin className="w-5 h-5 text-blue-400 group-hover:text-white" />
-                </div>
-                <div>
-                  <p className="text-slate-400 text-[10px] font-black uppercase tracking-wider">Location</p>
-                  <p className="text-sm font-bold tracking-tight">Karachi, Pakistan</p>
-                </div>
-              </div>
-
-              <div className="pt-6 border-t border-white/10 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center shrink-0">
-                  <FiClock className="w-5 h-5 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-slate-400 text-[10px] font-black uppercase tracking-wider">Status</p>
-                  <p className="text-sm font-bold text-green-400 tracking-tight">Available Now</p>
+            {/* Left Column: Info Card */}
+            <div 
+              ref={leftColRef}
+              className="lg:col-span-4 flex"
+            >
+              <div className="bg-[#0f172a] dark:bg-slate-900 rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-center border border-transparent dark:border-slate-800 group w-full">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 blur-3xl rounded-full -mr-16 -mt-16 transition-all group-hover:bg-blue-600/30"></div>
+                
+                <h3 className="text-2xl font-black mb-10 relative z-10 uppercase tracking-tight">Direct Access</h3>
+                
+                <div className="space-y-8 relative z-10">
+                  {[
+                    { icon: <FiPhone />, label: "Call", val: "+92 320 2108037", link: "tel:+923202108037" },
+                    { icon: <FiMail />, label: "Email", val: "contact@devsol.pk", link: "mailto:contact@devsol.pk" },
+                    { icon: <FiMapPin />, label: "Location", val: "Karachi, Pakistan", link: "#" }
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-6 group/item">
+                      <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform shadow-lg">
+                        <span className="text-xl">{item.icon}</span>
+                      </div>
+                      <div>
+                        <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">{item.label}</p>
+                        <a href={item.link} className="text-lg font-bold tracking-tight hover:text-blue-400 transition-colors">{item.val}</a>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </motion.div>
 
-          {/* Right Column: Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-8 bg-white rounded-[32px] p-6 lg:p-12 shadow-xl border border-slate-100 flex flex-col justify-center"
-          >
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-1" onSubmit={(e) => e.preventDefault()}>
-              <div className="space-y-1.5">
-                <label className="text-slate-700 font-black text-[10px] uppercase tracking-wide ml-1">Full Name</label>
-                <input type="text" placeholder="John Doe" className="w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 outline-none transition-all font-bold text-sm" />
-              </div>
-              
-              <div className="space-y-1.5">
-                <label className="text-slate-700 font-black text-[10px] uppercase tracking-wide ml-1">Email Address</label>
-                <input type="email" placeholder="john@example.com" className="w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 outline-none transition-all font-bold text-sm" />
-              </div>
+            {/* Right Column: Form */}
+            <div 
+              ref={rightColRef}
+              className="lg:col-span-8 bg-white dark:bg-slate-900 rounded-[40px] p-8 lg:p-14 shadow-2xl border border-slate-100 dark:border-slate-800 transition-colors duration-500"
+            >
+              <form className="grid grid-cols-1 md:grid-cols-2 gap-8" onSubmit={(e) => e.preventDefault()}>
+                <div className="space-y-2">
+                  <label className="text-slate-900 dark:text-slate-300 font-black text-xs uppercase tracking-widest ml-1">Your Name</label>
+                  <input type="text" placeholder="John Doe" className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-2 border-transparent focus:border-blue-600 outline-none transition-all font-bold text-slate-900 dark:text-white" />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-slate-900 dark:text-slate-300 font-black text-xs uppercase tracking-widest ml-1">Email Address</label>
+                  <input type="email" placeholder="john@example.com" className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-2 border-transparent focus:border-blue-600 outline-none transition-all font-bold text-slate-900 dark:text-white" />
+                </div>
 
-              <div className="md:col-span-2 space-y-1.5">
-                <label className="text-slate-700 font-black text-[10px] uppercase tracking-wide ml-1">Subject</label>
-                <input type="text" placeholder="Project Inquiry" className="w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 outline-none transition-all font-bold text-sm" />
-              </div>
+                <div className="md:col-span-2 space-y-2">
+                  <label className="text-slate-900 dark:text-slate-300 font-black text-xs uppercase tracking-widest ml-1">Subject</label>
+                  <input type="text" placeholder="How can we help?" className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-2 border-transparent focus:border-blue-600 outline-none transition-all font-bold text-slate-900 dark:text-white" />
+                </div>
 
-              <div className="md:col-span-2 space-y-1.5">
-                <label className="text-slate-700 font-black text-[10px] uppercase tracking-wide ml-1">Message</label>
-                <textarea rows="3" placeholder="How can we help?" className="w-full px-5 py-3.5 rounded-xl bg-slate-50 border border-slate-200 focus:border-blue-600 outline-none transition-all font-bold text-sm"></textarea>
-              </div>
+                <div className="md:col-span-2 space-y-2">
+                  <label className="text-slate-900 dark:text-slate-300 font-black text-xs uppercase tracking-widest ml-1">Message</label>
+                  <textarea rows="4" placeholder="Tell us about your mission..." className="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border-2 border-transparent focus:border-blue-600 outline-none transition-all font-bold text-slate-900 dark:text-white resize-none"></textarea>
+                </div>
 
-              <div className="md:col-span-2 pt-2">
-                <button className="w-full md:w-auto px-12 py-4 bg-blue-600 text-white font-black text-base rounded-full shadow-lg shadow-blue-200 hover:bg-slate-900 transition-all active:scale-95 flex items-center justify-center gap-3 group">
-                  Send Message <FiSend className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
-              </div>
-            </form>
-          </motion.div>
-
+                <div className="md:col-span-2 pt-4">
+                  <button 
+                    onMouseDown={handleBtnTap}
+                    className="w-full md:w-auto px-12 py-5 bg-blue-600 text-white font-black rounded-2xl shadow-xl hover:bg-slate-900 dark:hover:bg-blue-700 transition-all flex items-center justify-center gap-4 group"
+                  >
+                    Send Message <FiSend className="group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* 2. Footer Section: Separate Snap Point */}
+      <section className="snap-start py-20 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+        <Footer />
+      </section>
     </div>
   );
 }
 
-export default Contact;
+export default Contact;
