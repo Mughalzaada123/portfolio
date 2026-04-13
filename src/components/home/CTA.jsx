@@ -76,7 +76,7 @@ const CTA = () => {
           >
             <div className="space-y-6">
               <h3 className="cta-info-item text-sm font-black uppercase tracking-[0.4em] text-[var(--primary-600)]">Get in Touch</h3>
-              <h2 className="cta-info-item text-4xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9]">
+              <h2 className="cta-info-item text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9]">
                 Let's build <br /> <span className="text-[var(--primary-600)]">your dream.</span>
               </h2>
               <p className="cta-info-item text-slate-600 dark:text-slate-400 text-lg md:text-xl font-medium max-w-md leading-relaxed">

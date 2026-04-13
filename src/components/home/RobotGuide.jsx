@@ -78,6 +78,12 @@ const RobotGuide = ({ activeSection }) => {
       gsap.to(robotContainerRef.current, {
         x: targetX,
         y: 0,
+        duration: 0.8,
+        ease: "power2.out"
+      });
+      
+      // Only rotate the robot image, not the text
+      gsap.to(robotRef.current, {
         rotateY: data.position === 'left' ? 0 : 180,
         duration: 0.8,
         ease: "power2.out"
@@ -133,11 +139,9 @@ const RobotGuide = ({ activeSection }) => {
             className="absolute -top-24 md:-top-32 left-1/2 -translate-x-1/2 ml-3 md:ml-0 w-36 md:w-52"
           >
             <div 
-              className={`bg-white/40 dark:bg-slate-900/60 backdrop-blur-lg p-2 md:p-4 rounded-xl md:rounded-2xl shadow-xl border-2 border-blue-500/50 text-[10px] md:text-[13px] font-black text-gray-900 dark:text-white text-center relative
-                ${!isLeft ? 'scale-x-[-1]' : ''}
-              `}
+              className="bg-white/40 dark:bg-slate-900/60 backdrop-blur-lg p-2 md:p-4 rounded-xl md:rounded-2xl shadow-xl border-2 border-blue-500/50 text-[10px] md:text-[13px] font-black text-gray-900 dark:text-white text-center relative"
             >
-              <div className={!isLeft ? 'scale-x-[-1]' : ''}>
+              <div>
                 {message}
               </div>
               

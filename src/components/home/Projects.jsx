@@ -33,23 +33,38 @@ function Projects() {
       scrollTrigger: {
         trigger: headerRef.current,
         start: "top 90%",
+        once: true,
       }
     });
 
-    // Individual project card reveal
+    // Individual project card animation - only animate when each card comes into view
     const cards = gsap.utils.toArray(".project-card");
-    cards.forEach((card) => {
+    
+    cards.forEach((card, index) => {
       gsap.fromTo(card,
-        { opacity: 0, y: 50 },
+        { opacity: 0, y: 60, scale: 0.9 },
         {
           opacity: 1,
           y: 0,
+          scale: 1,
           duration: 1,
           ease: "power3.out",
+          delay: index * 0.15,
           scrollTrigger: {
             trigger: card,
-            start: "top 92%",
-            toggleActions: "play none none reverse",
+            start: "top 85%",
+            end: "bottom 15%",
+            once: true,
+            onEnter: () => {
+              gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 1,
+                ease: "power3.out",
+                delay: index * 0.15
+              });
+            }
           }
         }
       );
@@ -66,7 +81,7 @@ function Projects() {
           ref={headerRef}
           className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-10 lg:mb-14 items-center sm:items-end"
         >
-          <h2 className="text-3xl pt-15 sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight text-center sm:text-left">
+          <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight text-center sm:text-left">
             Recent
             <span className="text-blue-600 dark:text-blue-400"> Works</span>
           </h2>

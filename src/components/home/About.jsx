@@ -131,7 +131,7 @@ function About() {
               <h3 className="about-item text-xs md:text-sm font-black uppercase tracking-[0.4em] text-blue-600">
                 Who is Ahmed?
               </h3>
-              <h2 className="about-item text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9]">
+              <h2 className="about-item text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9]">
                 About <br /> 
                 <span className="text-slate-400 dark:text-slate-600">Ahmed Raza</span>
               </h2>

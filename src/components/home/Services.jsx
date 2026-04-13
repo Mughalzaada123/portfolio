@@ -20,37 +20,52 @@ function Services() {
   ];
 
   useGSAP(() => {
-    // Individual card reveal based on viewport entry
+    // Individual card animation - only animate when each card comes into view
     const cards = gsap.utils.toArray(".service-card");
-    cards.forEach((card) => {
-      gsap.fromTo(card, 
-        { opacity: 0, y: 50, scale: 0.9 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          scale: 1, 
-          duration: 0.8, 
-          ease: "power2.out",
+    
+    cards.forEach((card, index) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 60, scale: 0.85 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: index * 0.1, // Stagger effect for visible cards
           scrollTrigger: {
             trigger: card,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
+            start: "top 85%", // Start animation when card is 85% from top
+            end: "bottom 15%", // End when card is 15% from bottom
+            once: true, // Only play once
+            onEnter: () => {
+              // Card is now visible, animate it
+              gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: index * 0.1
+              });
+            }
           }
         }
       );
     });
 
-    // Heading reveal stays as a single trigger
-    gsap.fromTo(headingRef.current, 
+    // Heading reveal
+    gsap.fromTo(headingRef.current,
       { opacity: 0, y: 40 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 1, 
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
         scrollTrigger: {
           trigger: headingRef.current,
           start: "top 95%",
-        } 
+          once: true,
+        }
       }
     );
   }, { scope: container });

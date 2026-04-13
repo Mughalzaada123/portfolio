@@ -23,7 +23,7 @@ const Marquee = () => {
           <div className="flex items-center gap-12 whitespace-nowrap animate-marquee group-hover:pause">
             {row1.map((tech, i) => (
               <div key={i} className="flex items-center gap-12">
-                <span className="text-[clamp(2.5rem,8vw,5rem)] font-black tracking-tighter text-slate-900 dark:text-white opacity-10 dark:opacity-20 hover:opacity-100 dark:hover:opacity-100 transition-opacity duration-500 cursor-default">
+                <span className="text-[clamp(2.5rem,8vw,5rem)] font-black tracking-tighter text-slate-900 dark:text-white opacity-40 dark:opacity-60 hover:opacity-100 dark:hover:opacity-100 transition-opacity duration-500 cursor-default">
                   {tech}
                 </span>
                 <span className="text-blue-600 text-3xl md:text-5xl">•</span>
@@ -34,7 +34,7 @@ const Marquee = () => {
           <div className="flex items-center gap-12 whitespace-nowrap animate-marquee group-hover:pause" aria-hidden="true">
             {row1.map((tech, i) => (
               <div key={i} className="flex items-center gap-12">
-                <span className="text-[clamp(2.5rem,8vw,5rem)] font-black tracking-tighter text-slate-900 dark:text-white opacity-10 dark:opacity-20 hover:opacity-100 dark:hover:opacity-100 transition-opacity duration-500 cursor-default">
+                <span className="text-[clamp(2.5rem,8vw,5rem)] font-black tracking-tighter text-slate-900 dark:text-white opacity-40 dark:opacity-60 hover:opacity-100 dark:hover:opacity-100 transition-opacity duration-500 cursor-default">
                   {tech}
                 </span>
                 <span className="text-blue-600 text-3xl md:text-5xl">•</span>
@@ -48,10 +48,10 @@ const Marquee = () => {
           <div className="flex items-center gap-12 whitespace-nowrap animate-marquee-reverse group-hover:pause">
             {row2.map((action, i) => (
               <div key={i} className="flex items-center gap-12">
-                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/30 dark:text-blue-400/20 hover:text-blue-600 dark:hover:text-blue-400 cursor-default italic">
+                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/50 dark:text-blue-400/40 hover:text-blue-600 dark:hover:text-blue-400 cursor-default italic">
                   {action}
                 </span>
-                <span className="text-slate-900/10 dark:text-white/10 text-2xl md:text-4xl">✦</span>
+                <span className="text-slate-900/30 dark:text-white/30 text-2xl md:text-4xl">✦</span>
               </div>
             ))}
           </div>
@@ -59,10 +59,10 @@ const Marquee = () => {
           <div className="flex items-center gap-12 whitespace-nowrap animate-marquee-reverse group-hover:pause" aria-hidden="true">
             {row2.map((action, i) => (
               <div key={i} className="flex items-center gap-12">
-                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/30 dark:text-blue-400/20 hover:text-blue-600 dark:hover:text-blue-400 cursor-default italic">
+                <span className="text-[clamp(2rem,6vw,4rem)] font-black tracking-tighter text-blue-600/50 dark:text-blue-400/40 hover:text-blue-600 dark:hover:text-blue-400 cursor-default italic">
                   {action}
                 </span>
-                <span className="text-slate-900/10 dark:text-white/10 text-2xl md:text-4xl">✦</span>
+                <span className="text-slate-900/30 dark:text-white/30 text-2xl md:text-4xl">✦</span>
               </div>
             ))}
           </div>

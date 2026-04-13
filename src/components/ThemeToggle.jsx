@@ -1,172 +1,188 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
+
+const sizes = {
+  sm: {
+    track: "w-[52px] h-7",
+    thumb: 22,
+    translate: 22
+  },
+  md: {
+    track: "w-[68px] h-9",
+    thumb: 28,
+    translate: 30
+  },
+  lg: {
+    track: "w-[84px] h-11",
+    thumb: 34,
+    translate: 38
+  }
+};
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [currentSize, setCurrentSize] = useState('md');
+  
   const thumbRef = useRef(null);
   const trackRef = useRef(null);
   const isFirstRun = useRef(true);
 
+  // 1. Logic to handle responsive breakpoints
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setCurrentSize('sm'); // Mobile
+      } else if (width < 1024) {
+        setCurrentSize('md'); // Tablet
+      } else {
+        setCurrentSize('lg'); // Desktop
+      }
+    };
+
+    handleResize(); // Set initial size
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const config = useMemo(() => sizes[currentSize], [currentSize]);
+
+  // 2. Initialize Theme
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    const dark = savedTheme === 'dark';
-    if (dark) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
+    const dark = savedTheme === 'dark' || 
+      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
+    document.documentElement.classList.toggle('dark', dark);
     setIsDark(dark);
     setMounted(true);
   }, []);
 
+  // 3. Animation Logic
   useEffect(() => {
     if (!mounted || !thumbRef.current) return;
+
+    const moveX = isDark ? config.translate : 0;
+
     if (isFirstRun.current) {
-      gsap.set(thumbRef.current, { x: isDark ? 30 : 0 });
+      gsap.set(thumbRef.current, { x: moveX });
       isFirstRun.current = false;
       return;
     }
+
+    // Animate thumb position
     gsap.to(thumbRef.current, {
-      x: isDark ? 30 : 0,
-      duration: 0.45,
-      ease: 'back.out(2)',
+      x: moveX,
+      duration: 0.4,
+      ease: 'back.out(1.5)',
     });
-    // Subtle scale pulse on the track
+
+    // Subtle track "squish" effect
     gsap.fromTo(trackRef.current,
-      { scale: 0.95 },
-      { scale: 1, duration: 0.3, ease: 'back.out(2)' }
+      { scale: 0.97 },
+      { scale: 1, duration: 0.3, ease: 'power2.out' }
     );
-  }, [isDark, mounted]);
+
+  }, [isDark, mounted, config]); // Re-runs when isDark OR screen size changes
 
   const toggleTheme = (e) => {
     e.stopPropagation();
     const newDark = !isDark;
     setIsDark(newDark);
-    if (newDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    document.documentElement.classList.toggle('dark', newDark);
+    localStorage.setItem('theme', newDark ? 'dark' : 'light');
   };
 
-  if (!mounted) return <div className="w-[68px] h-9" />;
+  if (!mounted) return <div className="w-[52px] h-7" />;
 
   return (
     <button
       ref={trackRef}
       onClick={toggleTheme}
-      onMouseDown={(e) => e.preventDefault()}
       type="button"
       aria-label="Toggle theme"
+      className={`relative ${config.track} rounded-full flex items-center px-1 cursor-pointer overflow-hidden transition-colors duration-500 shadow-inner`}
       style={{
         background: isDark
-          ? 'linear-gradient(135deg, #0f172a 0%, #1a2744 100%)'
+          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
           : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 60%, #fbbf24 100%)',
-        boxShadow: isDark
-          ? `0 0 0 1.5px color-mix(in srgb, var(--primary-600) 40%, transparent), 0 4px 20px color-mix(in srgb, var(--primary-600) 25%, transparent), inset 0 1px 0 rgba(255,255,255,0.07)`
-          : '0 0 0 1.5px rgba(251,191,36,0.5), 0 4px 20px rgba(251,191,36,0.35), inset 0 1px 0 rgba(255,255,255,0.6)',
-        transition: 'background 0.35s ease, box-shadow 0.35s ease',
       }}
-      className="relative w-[68px] h-9 rounded-full flex items-center px-1 cursor-pointer overflow-hidden"
     >
-      {/* --- Dark mode background: stars --- */}
-      {isDark && (
-        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-full">
-          {[
-            { top: '18%', left: '12%', size: 1.5, delay: '0s' },
-            { top: '55%', left: '20%', size: 1,   delay: '0.4s' },
-            { top: '30%', left: '32%', size: 2,   delay: '0.8s' },
-            { top: '70%', left: '35%', size: 1,   delay: '0.2s' },
-            { top: '15%', left: '50%', size: 1.5, delay: '0.6s' },
-          ].map((s, i) => (
-            <span
-              key={i}
-              style={{
-                position: 'absolute',
-                top: s.top,
-                left: s.left,
-                width: s.size,
-                height: s.size,
-                borderRadius: '50%',
-                background: 'white',
-                opacity: 0.7,
-                animation: `starPulse 2s ${s.delay} ease-in-out infinite`,
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* --- Light mode background: sun rays --- */}
-      {!isDark && (
-        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-full flex items-center justify-start pl-2">
-          {[0, 30, 60, 90, 120, 150].map((deg, i) => (
-            <span
-              key={i}
-              style={{
-                position: 'absolute',
-                width: 10,
-                height: 1.5,
-                borderRadius: 9999,
-                background: 'rgba(180,100,0,0.25)',
-                transformOrigin: '0 50%',
-                transform: `rotate(${deg}deg) translateX(8px)`,
-                left: '18%',
-                top: '50%',
-                marginTop: -0.75,
-                animation: `rayRotate 6s linear infinite`,
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* --- Thumb --- */}
-      <div
-        ref={thumbRef}
-        style={{
-          width: 28,
-          height: 28,
-          borderRadius: '50%',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          zIndex: 10,
-          background: isDark
-            ? 'var(--primary-600)'
-            : 'linear-gradient(135deg, #f97316, #fcd34d)',
-          boxShadow: isDark
-            ? `0 2px 16px color-mix(in srgb, var(--primary-600) 70%, transparent), 0 0 0 2px rgba(255,255,255,0.12)`
-            : '0 2px 12px rgba(251,146,60,0.6), 0 0 0 2px rgba(255,255,255,0.5)',
-          transition: 'background 0.35s, box-shadow 0.35s',
-        }}
-      >
+      {/* Dynamic Background Elements (Stars/Clouds) */}
+      <div className="absolute inset-0 pointer-events-none">
         {isDark ? (
-          /* Moon SVG */
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
-          </svg>
+          <div className="relative w-full h-full">
+            {[...Array(4)].map((_, i) => (
+              <span
+                key={i}
+                className="absolute bg-white rounded-full animate-pulse"
+                style={{
+                  width: i % 2 === 0 ? 2 : 1,
+                  height: i % 2 === 0 ? 2 : 1,
+                  top: `${20 + (i * 15)}%`,
+                  left: `${15 + (i * 20)}%`,
+                  opacity: 0.6,
+                  animationDelay: `${i * 0.5}s`
+                }}
+              />
+            ))}
+          </div>
         ) : (
-          /* Sun SVG */
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="5" />
-            <line x1="12" y1="1"  x2="12" y2="3"  stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="12" y1="21" x2="12" y2="23" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="4.22" y1="4.22"  x2="5.64" y2="5.64"  stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="1"  y1="12" x2="3"  y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="21" y1="12" x2="23" y2="12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"  stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
+          <div className="relative w-full h-full opacity-40">
+             <div className="absolute right-2 top-2 w-4 h-2 bg-white rounded-full blur-[1px]" />
+             <div className="absolute right-6 bottom-2 w-3 h-1.5 bg-white rounded-full blur-[1px]" />
+          </div>
         )}
       </div>
 
+      {/* Thumb */}
+      <div
+        ref={thumbRef}
+        style={{
+          width: config.thumb,
+          height: config.thumb,
+        }}
+        className="rounded-full flex items-center justify-center relative z-10 shadow-md bg-white/10 backdrop-blur-sm"
+      >
+        {isDark ? (
+          <svg 
+            width="65%" height="65%" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className="text-yellow-200 fill-yellow-200"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+          </svg>
+        ) : (
+          <svg 
+            width="65%" height="65%" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className="text-orange-500 fill-orange-400"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        )}
+      </div>
     </button>
   );
 };
 
 export default ThemeToggle;
-

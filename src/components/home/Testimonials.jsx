@@ -75,7 +75,7 @@ function Testimonials() {
           </h3>
           <h2 
             ref={headingRef}
-            className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter leading-none"
+            className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none"
           >
             Client <span className="text-[var(--primary-600)]">Success.</span>
           </h2>
