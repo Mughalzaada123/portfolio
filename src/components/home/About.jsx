@@ -13,22 +13,28 @@ function About() {
   const decoCircleRef = useRef(null);
   const expTagRef = useRef(null);
   const bgAccentRef = useRef(null);
+  const storyTextRef = useRef(null);
+  const bgTextRef = useRef(null);
+
+  const storyText = "I am a Full-Stack Architect with a passion for building software that matters. My mission is to bridge the gap between complex engineering and human-centric design, creating digital products that are as robust as they are intuitive.";
 
   useGSAP(() => {
-    // Left side image reveal
-    gsap.from(imageContainerRef.current, {
-      opacity: 0,
-      x: -50,
-      scale: 0.9,
-      duration: 1.2,
-      ease: "power4.out",
-      scrollTrigger: {
-        trigger: imageContainerRef.current,
-        start: "top 85%",
+    // Scroll-scrubbed image reveal
+    gsap.fromTo(imageContainerRef.current,
+      { opacity: 0, x: -80, scale: 0.9 },
+      {
+        opacity: 1, x: 0, scale: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 90%",
+          end: "center 70%",
+          scrub: 1,
+        }
       }
-    });
+    );
 
-    // Decorative circle rotation
+    // Decorative circle rotation (keep as-is, it's not scroll-based)
     gsap.to(decoCircleRef.current, {
       rotate: 360,
       duration: 20,
@@ -36,33 +42,38 @@ function About() {
       ease: "none"
     });
 
-    // Floating experience tag
-    gsap.from(expTagRef.current, {
-      scale: 0,
-      rotate: -20,
-      duration: 0.8,
-      ease: "back.out(2)",
-      scrollTrigger: {
-        trigger: expTagRef.current,
-        start: "top 95%",
+    // Floating experience tag scroll reveal
+    gsap.fromTo(expTagRef.current,
+      { scale: 0, rotate: -20, opacity: 0 },
+      {
+        scale: 1, rotate: 0, opacity: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 85%",
+          end: "center 70%",
+          scrub: 1,
+        }
       }
-    });
+    );
 
-    // Right side text reveal (staggered)
-    gsap.from(".about-item", {
-      opacity: 0,
-      y: 30,
-      stagger: 0.15,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: textContainerRef.current,
-        start: "top 80%",
-        onComplete: () => gsap.set(".about-item", { clearProps: "all" })
+    // Right side text staggered scrub reveal
+    gsap.fromTo(".about-item",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0,
+        ease: "none",
+        stagger: 0.04,
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 85%",
+          end: "center 50%",
+          scrub: 1,
+        }
       }
-    });
+    );
 
-    // Background decorative accent
+    // Background accent pulse (keep as-is)
     gsap.to(bgAccentRef.current, {
       scale: 1.2,
       opacity: 0.1,
@@ -71,6 +82,32 @@ function About() {
       yoyo: true,
       ease: "sine.inOut"
     });
+
+    // Scrubbing Word Reveal
+    gsap.to(".story-word", {
+      opacity: 1,
+      stagger: 0.1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: storyTextRef.current,
+        start: "top 80%",
+        end: "bottom 50%",
+        scrub: 1,
+      }
+    });
+
+    // Background Text Parallax
+    gsap.to(bgTextRef.current, {
+      xPercent: -30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1
+      }
+    });
+
   }, { scope: container });
 
   const handleBtnHover = (e) => {
@@ -86,8 +123,16 @@ function About() {
   };
 
   return (
-    <div ref={container} className="relative w-full py-24 bg-white dark:bg-slate-950">
-      <div className="container mx-auto px-6 md:px-12 lg:px-20 max-w-7xl">
+    <div ref={container} className="relative w-full py-16 md:py-24 bg-white dark:bg-slate-950 overflow-hidden">
+      
+      {/* Huge Background Scrolling Text */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full pointer-events-none opacity-[0.03] dark:opacity-[0.08] z-0 flex items-center">
+        <h2 ref={bgTextRef} className="text-[20vw] font-black text-slate-900 dark:text-white whitespace-nowrap tracking-tighter leading-none">
+          DISCOVER THE STORY • DISCOVER THE STORY
+        </h2>
+      </div>
+
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 max-w-7xl relative z-10">
 
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           
@@ -125,9 +170,9 @@ function About() {
           {/* RIGHT SIDE: TEXT CONTENT */}
           <div 
             ref={textContainerRef}
-            className="w-full lg:w-7/12 flex flex-col text-center lg:text-left items-center lg:items-start"
+            className="w-full lg:w-7/12 flex flex-col text-left items-start"
           >
-            <div className="space-y-4 mb-8">
+            <div className="space-y-4 mb-8 text-left w-full">
               <h3 className="about-item text-xs md:text-sm font-black uppercase tracking-[0.4em] text-blue-600">
                 Who is Ahmed?
               </h3>
@@ -137,11 +182,19 @@ function About() {
               </h2>
             </div>
 
-            <p className="about-item text-slate-600 dark:text-slate-400 text-base md:text-lg lg:text-xl font-medium leading-relaxed max-w-2xl mb-10 text-center lg:text-left">
-              I am a <span className="text-slate-900 dark:text-white font-bold">Full-Stack Architect</span> with a passion for building software that matters. 
-              My mission is to bridge the gap between complex engineering and human-centric design, 
-              creating digital products that are as robust as they are intuitive.
-            </p>
+            <div 
+              ref={storyTextRef}
+              className="about-item flex flex-wrap gap-x-2 gap-y-1 mb-10 max-w-2xl text-left"
+            >
+              {storyText.split(" ").map((word, i) => (
+                <span 
+                  key={i} 
+                  className="story-word text-slate-900 dark:text-white text-[1.25rem] md:text-2xl lg:text-3xl font-bold leading-snug md:leading-tight opacity-20"
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
 
             {/* STATS GRID */}
             <div className="about-item w-full grid grid-cols-3 gap-4 md:gap-8 py-8 border-y border-slate-200 dark:border-white/10 mb-10">

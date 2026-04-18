@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FiClock } from "react-icons/fi";
+import { FiClock, FiArrowUpRight } from "react-icons/fi";
 
 import project1 from "../../assets/projects/ar-dev-toolkit.png";
 
@@ -18,132 +18,200 @@ function Projects() {
       title: "AR-dev-toolkit",
       category: "PHP • CSS • JS Logic",
       image: project1,
-      isComingSoon: false
+      isComingSoon: false,
+      desc: "A comprehensive developer toolkit engineered for modern PHP and JS workflows, emphasizing clean architecture and efficiency."
     },
-    { id: 2, title: "", category: "", isComingSoon: true },
-    { id: 3, title: "", category: "", isComingSoon: true }
+    { 
+      id: 2, 
+      title: "Next-Gen SaaS", 
+      category: "React • Node.js", 
+      isComingSoon: true,
+      desc: "Currently crafting a highly scalable SaaS platform with smart integrations and real-time data processing capabilities."
+    },
+    { 
+      id: 3, 
+      title: "Premium E-Commerce", 
+      category: "Next.js • Tailwind", 
+      isComingSoon: true,
+      desc: "A completely custom headless e-commerce solution focusing on premium micro-interactions and blazing fast load times."
+    }
   ];
 
   useGSAP(() => {
-    // Reveal header
-    gsap.from(headerRef.current, {
-      opacity: 0,
-      x: -30,
-      duration: 1,
-      scrollTrigger: {
-        trigger: headerRef.current,
-        start: "top 90%",
-        once: true,
+    // Scroll-scrubbed header reveal
+    gsap.fromTo(headerRef.current,
+      { opacity: 0, y: 60 },
+      {
+        opacity: 1, y: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: "top 90%",
+          end: "top 50%",
+          scrub: 1,
+        }
       }
+    );
+
+    // Individual Background Text Parallax
+    const bgTexts = gsap.utils.toArray(".project-bg-text");
+    bgTexts.forEach((text, index) => {
+      const direction = index % 2 === 0 ? 20 : -20;
+      gsap.to(text, {
+        xPercent: direction,
+        ease: "none",
+        scrollTrigger: {
+          trigger: text.parentElement,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
     });
 
-    // Individual project card animation - only animate when each card comes into view
-    const cards = gsap.utils.toArray(".project-card");
-    
-    cards.forEach((card, index) => {
-      gsap.fromTo(card,
-        { opacity: 0, y: 60, scale: 0.9 },
+    // Scroll-scrubbed project card reveal
+    const projectRows = gsap.utils.toArray(".project-row");
+    projectRows.forEach((row, i) => {
+      const isEven = i % 2 === 0;
+      const imgSide = row.querySelector(".project-img-side");
+      const textSide = row.querySelector(".project-text-side");
+
+      gsap.fromTo(imgSide,
+        { opacity: 0, x: isEven ? -60 : 60 },
         {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 1,
-          ease: "power3.out",
-          delay: index * 0.15,
+          opacity: 1, x: 0, ease: "none",
           scrollTrigger: {
-            trigger: card,
+            trigger: row,
             start: "top 85%",
-            end: "bottom 15%",
-            once: true,
-            onEnter: () => {
-              gsap.to(card, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 1,
-                ease: "power3.out",
-                delay: index * 0.15
-              });
-            }
+            end: "top 35%",
+            scrub: 1.2,
+          }
+        }
+      );
+
+      gsap.fromTo(textSide,
+        { opacity: 0, x: isEven ? 60 : -60 },
+        {
+          opacity: 1, x: 0, ease: "none",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 85%",
+            end: "top 30%",
+            scrub: 1.5,
           }
         }
       );
     });
+
+    // Project image internal parallax
+    const images = gsap.utils.toArray(".project-image-parallax");
+    images.forEach((img) => {
+      gsap.to(img, {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: img.parentElement,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
+    });
+
   }, { scope: container });
 
-
   return (
-    <div ref={container} className="w-full py-24 bg-white dark:bg-slate-950 relative">
-      <div className="mx-auto w-[85%] max-w-7xl">
+    <div ref={container} className="w-full py-16 md:py-32 bg-white dark:bg-slate-950 relative z-10 overflow-hidden">
+      
+      <div className="mx-auto w-[90%] md:w-[85%] max-w-7xl relative z-10">
 
         {/* Header */}
         <div
           ref={headerRef}
-          className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mb-10 lg:mb-14 items-center sm:items-end"
+          className="flex flex-col gap-4 mb-16 lg:mb-20 items-start text-left w-full"
         >
-          <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight text-center sm:text-left">
-            Recent
-            <span className="text-blue-600 dark:text-blue-400"> Works</span>
+          <span className="text-sm font-black uppercase tracking-[0.4em] text-blue-600">Portfolio</span>
+          <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9] text-left">
+            Featured
+            <span className="text-blue-600 dark:text-blue-400"> Projects.</span>
           </h2>
         </div>
 
-        {/* Grid */}
-        <div className="project-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {projects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`project-card group ${!project.isComingSoon ? "cursor-pointer" : ""}`}
-            >
-              {/* Image Box */}
-              <div className={`relative aspect-[4/3] bg-slate-100 dark:bg-slate-800 rounded-2xl sm:rounded-[32px] overflow-hidden mb-4 sm:mb-6 shadow-lg sm:shadow-xl ${project.isComingSoon ? 'border border-slate-200 dark:border-slate-800' : ''}`}>
-                {!project.isComingSoon ? (
-                  <div className="absolute inset-0 w-full h-full">
-                    {project.image ? (
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
+        {/* Alternating Layout */}
+        <div className="flex flex-col gap-32 md:gap-48 mt-10">
+          {projects.map((project, index) => {
+            const isEven = index % 2 === 0;
+
+            return (
+              <div key={project.id} className="relative w-full">
+                
+                {/* Individual Background Text for each card */}
+                <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[150vw] pointer-events-none opacity-[0.03] dark:opacity-[0.08] z-0 flex items-center justify-center overflow-hidden">
+                  <h2 className={`project-bg-text text-[15vw] md:text-[12vw] lg:text-[10vw] font-black text-slate-900 dark:text-white whitespace-nowrap tracking-tighter leading-none ${isEven ? '-translate-x-[10%]' : 'translate-x-[10%]'}`}>
+                    {project.title.toUpperCase()} • {project.title.toUpperCase()} • {project.title.toUpperCase()} • {project.title.toUpperCase()}
+                  </h2>
+                </div>
+
+                <div className={`project-row relative flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-10 lg:gap-20 items-center group z-10`}>
+                  
+                  {/* Image Container (60%) */}
+                  <div className="project-img-side w-full lg:w-3/5">
+                  <div className={`relative w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden rounded-[2rem] bg-slate-100 dark:bg-slate-900 ${project.isComingSoon ? 'border border-slate-200 dark:border-slate-800' : ''}`}>
+                    {!project.isComingSoon ? (
+                      <div className="absolute inset-0 w-full h-full">
+                        {/* Parallax Image */}
+                        <img 
+                          src={project.image} 
+                          alt={project.title} 
+                          className="project-image-parallax absolute -top-[10%] left-0 w-full h-[120%] object-cover origin-center scale-100 group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]" 
+                        />
+                        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                      </div>
                     ) : (
-                      <div className="absolute inset-0 bg-[#0f172a] dark:bg-blue-900/40 flex items-center justify-center text-white font-black text-lg sm:text-xl md:text-2xl opacity-90 transition-transform duration-700 group-hover:scale-110">
-                        Project {project.id}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-800/50">
+                        <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-700 animate-[pulse_2s_ease-in-out_infinite] mb-6 flex items-center justify-center">
+                          <FiClock className="text-slate-400 dark:text-slate-500 text-2xl" />
+                        </div>
+                        <span className="text-sm font-black uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">In Development</span>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/0" />
                   </div>
-                ) : (
-                  <div className="absolute inset-0 bg-slate-200/50 dark:bg-slate-800 animate-[pulse_2s_ease-in-out_infinite] flex items-center justify-center">
-                    <span className="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest text-sm md:text-base flex items-center gap-2">
-                      <FiClock /> Coming Soon
-                    </span>
-                  </div>
-                )}
-              </div>
+                </div>
 
-              {/* Content */}
-              {!project.isComingSoon ? (
-                <>
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                {/* Text Container (40%) */}
+                <div className="project-text-side w-full lg:w-2/5 flex flex-col items-start text-left">
+                  <div className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 mb-4 sm:mb-6">
+                    0{index + 1} — {project.category}
+                  </div>
+                  
+                  <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-6">
                     {project.title}
                   </h3>
-                  <p className="text-slate-500 dark:text-slate-400 font-bold text-xs sm:text-sm uppercase">
-                    {project.category}
+                  
+                  <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-md">
+                    {project.desc}
                   </p>
-                </>
-              ) : (
-                <div className="flex flex-col gap-3 mt-2">
-                  <div className="h-6 sm:h-8 bg-slate-200/50 dark:bg-slate-800 rounded-lg w-3/4 animate-[pulse_2s_ease-in-out_infinite]"></div>
-                  <div className="h-4 sm:h-5 bg-slate-200/50 dark:bg-slate-800 rounded-md w-1/2 animate-[pulse_2s_ease-in-out_infinite]"></div>
+
+                  {!project.isComingSoon ? (
+                    <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm uppercase tracking-widest hover:scale-105 transition-transform duration-300">
+                      View Project <FiArrowUpRight size={20} />
+                    </button>
+                  ) : (
+                    <button disabled className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold text-sm uppercase tracking-widest cursor-not-allowed">
+                      Coming Soon
+                    </button>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+
+                </div>
+              </div>
+            );
+          })}
         </div>
+
       </div>
     </div>
   );
 }
 
-
 export default Projects;
-

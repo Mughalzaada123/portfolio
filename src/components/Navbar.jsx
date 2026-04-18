@@ -3,8 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ThemeToggle from "./ThemeToggle";
 import { useAppReady } from '../context/AppReadyContext';
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +27,43 @@ function Navbar() {
     { name: "About Us", path: "#about" },
     { name: "Contact", path: "#cta" },
   ];
+
+  const handleNavClick = (e, path) => {
+    e.preventDefault();
+    setActiveHash(path);
+    setIsOpen(false);
+    
+    const element = document.querySelector(path);
+    if (element) {
+      // Offset for navbar spacing
+      const offsetPosition = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+
+      // Reset animations for this section INSTANTLY so there is no glitch/flash
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach(trigger => {
+        if (trigger.trigger && (element.contains(trigger.trigger) || trigger.trigger === element)) {
+          if (trigger.animation) {
+            trigger.animation.progress(0).pause();
+          }
+        }
+      });
+
+      // Play the animation after the smooth scroll completes (approx 600ms)
+      setTimeout(() => {
+        triggers.forEach(trigger => {
+          if (trigger.trigger && (element.contains(trigger.trigger) || trigger.trigger === element)) {
+            if (trigger.animation) {
+              trigger.animation.play();
+            }
+          }
+        });
+      }, 600);
+    }
+  };
 
   // Simplified scroll tracking
   useGSAP(() => {
@@ -223,6 +263,34 @@ function Navbar() {
               </div>
             </Link>
 
+            <div className="hidden md:flex lg:hidden items-center gap-1">
+              {menuItems.map((item) => {
+                const isActive = activeHash === item.path;
+                return (
+                  <a
+                    key={item.name}
+                    ref={(el) => navItemRefs.current[item.path] = el}
+                    href={item.path}
+                    onClick={(e) => handleNavClick(e, item.path)}
+                    className="relative px-2 py-1.5 text-[10px] font-black tracking-tight transition-colors duration-300 min-w-[60px] text-center"
+                  >
+                    <span className={`relative z-10 ${isActive ? "text-white" : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
+                      {item.name}
+                    </span>
+                    {isActive && (
+                      <div
+                        className="active-pill absolute inset-0 bg-blue-600 rounded-full shadow-lg"
+                      />
+                    )}
+                  </a>
+                );
+              })}
+              <div className="ml-2 pl-2 border-l border-gray-100 dark:border-slate-800 relative z-30 pointer-events-auto">
+                <ThemeToggle />
+              </div>
+            </div>
+
+            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-2">
               {menuItems.map((item) => {
                 const isActive = activeHash === item.path;
@@ -231,7 +299,7 @@ function Navbar() {
                     key={item.name}
                     ref={(el) => navItemRefs.current[item.path] = el}
                     href={item.path}
-                    onClick={() => setActiveHash(item.path)}
+                    onClick={(e) => handleNavClick(e, item.path)}
                     className="relative px-4 sm:px-5 py-2 text-[12px] sm:text-[14px] lg:text-[15px] font-black tracking-tight transition-colors duration-300 min-w-[80px] text-center"
                   >
                     <span className={`relative z-10 ${isActive ? "text-white" : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
@@ -251,7 +319,7 @@ function Navbar() {
             </div>
 
             {/* Mobile Actions (Toggle + Theme) */}
-            <div className="lg:hidden flex items-center gap-2 sm:gap-3 relative z-30 pointer-events-auto">
+            <div className="md:hidden flex items-center gap-2 sm:gap-3 relative z-30 pointer-events-auto">
               <ThemeToggle />
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -276,7 +344,7 @@ function Navbar() {
                   <div key={item.name} className="mobile-link">
                     <a
                       href={item.path}
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => handleNavClick(e, item.path)}
                       className={`w-full block text-center py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-black tracking-tight transition-all
                         ${isActive
                           ? "bg-blue-600 text-white shadow-md"

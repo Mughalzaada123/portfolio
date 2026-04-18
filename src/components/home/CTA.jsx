@@ -10,36 +10,52 @@ const CTA = () => {
   const container = useRef(null);
   const leftSideRef = useRef(null);
   const formContainerRef = useRef(null);
+  const bgTextRef = useRef(null);
 
   useGSAP(() => {
-    // Left side entrance
-    gsap.from(".cta-info-item", {
-      opacity: 0,
-      x: -20,
-      stagger: 0.1,
-      duration: 0.6,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: leftSideRef.current,
-        start: "top 90%",
-      }
-    });
-
-    // Form entrance
-    gsap.from(formContainerRef.current, {
-      opacity: 0,
-      y: 50,
-      scale: 0.95,
-      duration: 0.8,
-      delay: 0.2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: formContainerRef.current,
-        start: "top 85%",
-        onComplete: () => {
-          gsap.set(".cta-info-item", { clearProps: "all" });
-          gsap.set(formContainerRef.current, { clearProps: "all" });
+    // Scroll-scrubbed left side
+    gsap.fromTo(".cta-info-item",
+      { opacity: 0, x: -40 },
+      {
+        opacity: 1,
+        x: 0,
+        ease: "none",
+        stagger: 0.06,
+        scrollTrigger: {
+          trigger: leftSideRef.current,
+          start: "top 85%",
+          end: "top 30%",
+          scrub: 1.2,
         }
+      }
+    );
+
+    // Scroll-scrubbed form
+    gsap.fromTo(formContainerRef.current,
+      { opacity: 0, y: 60, scale: 0.95 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: formContainerRef.current,
+          start: "top 88%",
+          end: "top 35%",
+          scrub: 1.5,
+        }
+      }
+    );
+
+    // Massive Background Text Parallax
+    gsap.to(bgTextRef.current, {
+      xPercent: -20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1
       }
     });
   }, { scope: container });
@@ -65,8 +81,16 @@ const CTA = () => {
   };
 
   return (
-    <div ref={container} className="w-full py-24 bg-white dark:bg-slate-950 relative">
-      <div className="w-[90%] md:w-[85%] max-w-7xl mx-auto">
+    <div ref={container} className="w-full py-10 md:py-16 bg-white dark:bg-slate-950 relative overflow-hidden">
+      
+      {/* Huge Background Scrolling Text */}
+      <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full pointer-events-none opacity-[0.03] dark:opacity-[0.08] z-0 flex items-center">
+        <h2 ref={bgTextRef} className="text-[20vw] font-black text-slate-900 dark:text-white whitespace-nowrap tracking-tighter leading-none">
+          GET IN TOUCH • GET IN TOUCH
+        </h2>
+      </div>
+
+      <div className="w-[90%] md:w-[85%] max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           {/* LEFT SIDE: TEXT & INFO */}
@@ -76,7 +100,7 @@ const CTA = () => {
           >
             <div className="space-y-6">
               <h3 className="cta-info-item text-sm font-black uppercase tracking-[0.4em] text-[var(--primary-600)]">Get in Touch</h3>
-              <h2 className="cta-info-item text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9]">
+              <h2 className="cta-info-item text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-[0.9] text-left">
                 Let's build <br /> <span className="text-[var(--primary-600)]">your dream.</span>
               </h2>
               <p className="cta-info-item text-slate-600 dark:text-slate-400 text-lg md:text-xl font-medium max-w-md leading-relaxed">

@@ -32,7 +32,6 @@ const HeroSection = () => {
   const blob2Ref = useRef(null);
   const shapeRef = useRef(null);
   const imageRef = useRef(null);
-  const badgeRef = useRef(null);
   const mobileDockRef = useRef(null);
 
   const appReady = useAppReady();
@@ -56,11 +55,6 @@ const HeroSection = () => {
         scale: 0.8,
         duration: 1.5,
       }, "-=1")
-      .from(badgeRef.current, {
-        opacity: 0,
-        x: -20,
-        duration: 0.8,
-      }, "-=0.5")
       .from(mobileDockRef.current, {
         opacity: 0,
         y: 50,
@@ -90,10 +84,6 @@ const HeroSection = () => {
         y: -8, duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut"
       });
 
-      // Badge Floating - reduced amplitude
-      gsap.to(badgeRef.current, {
-        y: 5, duration: 7, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5
-      });
     }
   }, { scope: container, dependencies: [appReady] });
 
@@ -132,7 +122,7 @@ const HeroSection = () => {
     <div
       ref={container}
       id="hero"
-      className="relative w-full min-h-screen bg-slate-50 dark:bg-[#030712] flex items-center justify-center overflow-hidden pt-16 sm:pt-20 md:pt-24 lg:pt-20"
+      className="relative w-full min-h-[100dvh] bg-slate-50 dark:bg-[#030712] flex items-center justify-center overflow-hidden pt-24 sm:pt-28 md:pt-24 lg:pt-20 pb-20 lg:pb-0"
     >
       {/* --- PREMIUM BACKGROUND ELEMENTS --- */}
       <div className="absolute inset-0 z-0">
@@ -151,29 +141,44 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="relative z-10 w-[90%] sm:w-[85%] md:w-[80%] max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-10 lg:gap-14 px-4 sm:px-6 md:px-12 lg:px-16">
-        <div className="flex flex-col lg:flex-row items-center justify-center w-full gap-6 sm:gap-8 lg:gap-16">
+      <div className="relative z-10 w-[90%] sm:w-[85%] md:w-[80%] max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-10 lg:gap-14 px-4 sm:px-6 md:px-12 lg:px-16">
+        <div className="flex flex-col lg:flex-row items-center justify-center w-full gap-4 sm:gap-8 lg:gap-16">
 
           {/* TEXT CONTENT */}
-          <div className="flex-1 text-center lg:text-left z-20 order-2 lg:order-1">
-            <div className="gsap-item inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/50 dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/10 mb-4 sm:mb-6">
-              <Sparkles size={12} sm:size={14} className="text-[var(--primary-600)]" />
-              <span className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 dark:text-slate-400">
+          <div className="flex-1 text-center lg:text-left z-20 order-1 flex flex-col items-center lg:items-start relative pt-0 lg:pt-12">
+
+            <div className="gsap-item relative inline-flex items-center px-4 py-2 sm:py-2.5 rounded-full bg-slate-100 dark:bg-slate-800/50 backdrop-blur-md border border-slate-200 dark:border-white/10 mb-6 sm:mb-16 shadow-sm">
+              <span className="relative flex items-center justify-center h-2.5 w-2.5 ml-2 mr-12">
+                {/* Spinning Text Ring Centered on Dot */}
+                <div className="absolute animate-[spin_15s_linear_infinite] hidden lg:block w-[110px] h-[110px] opacity-50 pointer-events-none">
+                  <svg viewBox="0 0 100 100" width="110" height="110" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <path id="circlePath" fill="none" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" />
+                    <text className="text-[10px] font-black uppercase tracking-[0.2em] fill-slate-900 dark:fill-white">
+                      <textPath href="#circlePath">
+                        AHMED RAZA • FULL STACK DEV •
+                      </textPath>
+                    </text>
+                  </svg>
+                </div>
+
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 z-10"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 z-10"></span>
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-slate-600 dark:text-slate-300 z-10 relative">
                 Available for New Projects
               </span>
             </div>
 
-            <h1 className="gsap-item text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[0.9] text-slate-900 dark:text-white">
+            <h1 className="gsap-item text-[2.75rem] leading-[0.9] sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-slate-900 dark:text-white relative z-20">
               Ahmed <br className="hidden sm:block" />
               <span className="text-[var(--primary-600)]">
                 Raza
               </span>
             </h1>
 
-            <p className="gsap-item mt-4 sm:mt-6 text-sm sm:text-lg text-slate-600 dark:text-slate-400 max-w-md sm:max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed">
-              Crafting high-performance web experiences with modern tech stacks.
-              <br className="hidden xs:block" />
-              Bridging the gap between <span className="text-slate-900 dark:text-white">Creative Design</span> and <span className="text-slate-900 dark:text-white">Technical Excellence</span>.
+            <p className="gsap-item mt-4 sm:mt-8 text-sm sm:text-xl text-slate-600 dark:text-slate-400 max-w-[280px] sm:max-w-lg font-medium leading-relaxed mx-auto lg:mx-0">
+              Crafting high-performance digital experiences.
+              Bridging the gap between <span className="text-slate-900 dark:text-white font-bold">Design</span> & <span className="text-slate-900 dark:text-white font-bold">Engineering</span>.
             </p>
 
             {/* CTA BUTTONS (Desktop) */}
@@ -211,11 +216,11 @@ const HeroSection = () => {
           </div>
 
           {/* IMAGE SECTION */}
-          <div className="relative flex-1 flex flex-col items-center justify-center order-1 lg:order-2">
-            <div className="relative w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] md:w-[350px] md:h-[350px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px]">
+          <div className="relative flex-1 flex flex-col items-center justify-center order-2 mt-4 sm:mt-0 w-full">
+            <div className="relative w-[240px] h-[240px] sm:w-[250px] sm:h-[250px] md:w-[350px] md:h-[350px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px]">
               <div
                 ref={shapeRef}
-                style={{ 
+                style={{
                   background: 'linear-gradient(to top right, var(--primary-600), transparent)',
                   borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%'
                 }}
@@ -226,30 +231,15 @@ const HeroSection = () => {
                 ref={imageRef}
                 className="absolute inset-0 w-full h-[35vh] sm:h-[40vh] md:h-full lg:h-[500px] xl:h-[650px] object-contain z-10 drop-shadow-[0_25px_25px_rgba(0,0,0,0.25)] origin-bottom scale-125 sm:scale-110 md:scale-100"
               />
-
-              <div
-                ref={badgeRef}
-                className="absolute -left-2 sm:-left-4 top-1/4 z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-3 sm:p-4 rounded-2xl shadow-2xl border border-white/20 hidden md:block"
-              >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                    <Sparkles className="text-blue-600" size={16} sm:size={20} />
-                  </div>
-                  <div>
-                    <p className="text-[9px] sm:text-[10px] uppercase tracking-tighter text-slate-500 font-bold">Experienced</p>
-                    <p className="text-xs sm:text-sm font-black dark:text-white">Web Developer</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* MOBILE ONLY BUTTONS */}
+      {/* MOBILE ONLY BUTTONS (Fixed at Bottom of Hero) */}
       <div
         ref={mobileDockRef}
-        className="absolute bottom-4 sm:bottom-6 left-0 right-0 z-50 flex lg:hidden px-4 sm:px-6"
+        className="absolute bottom-4 left-0 right-0 z-[60] flex lg:hidden px-4"
       >
         <div className="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-[1.5rem] sm:rounded-[2rem] p-2 sm:p-3 shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex flex-col gap-2">
           <button
@@ -270,9 +260,12 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-10 left-10 hidden xl:block overflow-hidden pointer-events-none">
-        <h2 className="text-[15vh] font-black text-slate-900/[0.03] dark:text-white/[0.02] whitespace-nowrap leading-none select-none">
-        </h2>
+      {/* SCROLL DOWN INDICATOR */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 [writing-mode:vertical-lr] rotate-180 mb-2">Scroll</span>
+        <div className="w-px h-12 bg-slate-300 dark:bg-slate-700 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1/2 bg-blue-600 animate-[bounce_2s_infinite]"></div>
+        </div>
       </div>
     </div>
   );

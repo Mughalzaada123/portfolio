@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 import ThemeCustomizer from "./components/ThemeCustomizer";
 import Loader from "./components/Loader";
+import WhatsAppWidget from "./components/WhatsAppWidget";
 import { AppReadyContext } from "./context/AppReadyContext";
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Navbar />
           <AppRoutes />
           <ThemeCustomizer />
+          <WhatsAppWidget />
         </div>
       </AppReadyContext.Provider>
     </BrowserRouter>

@@ -12,7 +12,7 @@ const Marquee = () => {
   ];
 
   return (
-    <section className="relative py-10 overflow-hidden bg-white dark:bg-[#030712]">
+    <section className="relative py-6 md:py-8 overflow-hidden bg-white dark:bg-[#030712] border-y border-slate-200 dark:border-slate-800">
       {/* Mask effect on edges */}
       <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white dark:from-[#030712] to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white dark:from-[#030712] to-transparent z-10 pointer-events-none" />
