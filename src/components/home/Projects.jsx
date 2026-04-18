@@ -121,7 +121,7 @@ function Projects() {
   }, { scope: container });
 
   return (
-    <div ref={container} className="w-full py-16 md:py-32 bg-white dark:bg-slate-950 relative z-10 overflow-hidden">
+    <div ref={container} className="w-full py-12 md:py-24 bg-white dark:bg-slate-950 relative z-10 overflow-hidden">
       
       <div className="mx-auto w-[90%] md:w-[85%] max-w-7xl relative z-10">
 
@@ -138,7 +138,7 @@ function Projects() {
         </div>
 
         {/* Alternating Layout */}
-        <div className="flex flex-col gap-32 md:gap-48 mt-10">
+        <div className="flex flex-col gap-24 md:gap-32 mt-8">
           {projects.map((project, index) => {
             const isEven = index % 2 === 0;
 
@@ -152,11 +152,11 @@ function Projects() {
                   </h2>
                 </div>
 
-                <div className={`project-row relative flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-10 lg:gap-20 items-center group z-10`}>
+                <div className={`project-row relative flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-4 lg:gap-20 items-center group z-10`}>
                   
                   {/* Image Container (60%) */}
                   <div className="project-img-side w-full lg:w-3/5">
-                  <div className={`relative w-full aspect-[4/3] sm:aspect-[16/10] overflow-hidden rounded-[2rem] bg-slate-100 dark:bg-slate-900 ${project.isComingSoon ? 'border border-slate-200 dark:border-slate-800' : ''}`}>
+                  <div className={`relative w-full aspect-video sm:aspect-[16/10] overflow-hidden rounded-[2rem] bg-slate-100 dark:bg-slate-900 ${project.isComingSoon ? 'border border-slate-200 dark:border-slate-800' : ''}`}>
                     {!project.isComingSoon ? (
                       <div className="absolute inset-0 w-full h-full">
                         {/* Parallax Image */}
@@ -180,15 +180,15 @@ function Projects() {
 
                 {/* Text Container (40%) */}
                 <div className="project-text-side w-full lg:w-2/5 flex flex-col items-start text-left">
-                  <div className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 mb-4 sm:mb-6">
+                  <div className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 mb-2">
                     0{index + 1} — {project.category}
                   </div>
                   
-                  <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-6">
+                  <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-3">
                     {project.title}
                   </h3>
                   
-                  <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl font-medium leading-relaxed mb-10 max-w-md">
+                  <p className="text-slate-600 dark:text-slate-400 text-base md:text-xl font-medium leading-relaxed mb-4 max-w-md">
                     {project.desc}
                   </p>
 

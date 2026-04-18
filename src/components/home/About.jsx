@@ -66,8 +66,8 @@ function About() {
         stagger: 0.04,
         scrollTrigger: {
           trigger: container.current,
-          start: "top 85%",
-          end: "center 50%",
+          start: "top 90%",
+          end: "center 60%",
           scrub: 1,
         }
       }
@@ -90,8 +90,8 @@ function About() {
       ease: "none",
       scrollTrigger: {
         trigger: storyTextRef.current,
-        start: "top 80%",
-        end: "bottom 50%",
+        start: "top 90%",
+        end: "bottom 70%",
         scrub: 1,
       }
     });
@@ -123,7 +123,7 @@ function About() {
   };
 
   return (
-    <div ref={container} className="relative w-full py-16 md:py-24 bg-white dark:bg-slate-950 overflow-hidden">
+    <div ref={container} className="relative w-full py-12 md:py-20 bg-white dark:bg-slate-950 overflow-hidden">
       
       {/* Huge Background Scrolling Text */}
       <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full pointer-events-none opacity-[0.03] dark:opacity-[0.08] z-0 flex items-center">
@@ -134,7 +134,7 @@ function About() {
 
       <div className="container mx-auto px-6 md:px-12 lg:px-20 max-w-7xl relative z-10">
 
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20">
           
           {/* LEFT SIDE: IMAGE CONTAINER */}
           <div 
@@ -172,7 +172,7 @@ function About() {
             ref={textContainerRef}
             className="w-full lg:w-7/12 flex flex-col text-left items-start"
           >
-            <div className="space-y-4 mb-8 text-left w-full">
+            <div className="space-y-4 mb-4 text-left w-full">
               <h3 className="about-item text-xs md:text-sm font-black uppercase tracking-[0.4em] text-blue-600">
                 Who is Ahmed?
               </h3>
@@ -184,7 +184,7 @@ function About() {
 
             <div 
               ref={storyTextRef}
-              className="about-item flex flex-wrap gap-x-2 gap-y-1 mb-10 max-w-2xl text-left"
+              className="about-item flex flex-wrap gap-x-2 gap-y-1 mb-6 max-w-2xl text-left"
             >
               {storyText.split(" ").map((word, i) => (
                 <span 
@@ -197,7 +197,7 @@ function About() {
             </div>
 
             {/* STATS GRID */}
-            <div className="about-item w-full grid grid-cols-3 gap-4 md:gap-8 py-8 border-y border-slate-200 dark:border-white/10 mb-10">
+            <div className="about-item w-full grid grid-cols-3 gap-4 md:gap-8 py-8 border-y border-slate-200 dark:border-white/10 mb-6">
               <div className="space-y-1">
                 <h4 className="text-2xl md:text-4xl font-black text-slate-900 dark:text-white italic">4+</h4>
                 <p className="text-[10px] md:text-xs font-black uppercase text-slate-400 tracking-widest">Projects</p>
@@ -211,15 +211,6 @@ function About() {
                 <p className="text-[10px] md:text-xs font-black uppercase text-slate-400 tracking-widest">Client Joy</p>
               </div>
             </div>
-
-            <button
-              onMouseEnter={handleBtnHover}
-              onMouseLeave={handleBtnLeave}
-              className="group flex items-center gap-4 text-xs md:text-sm font-black uppercase tracking-[0.2em] text-blue-600 transition-all"
-            >
-              Learn more about me 
-              <span className="about-btn-line w-12 h-[2px] bg-blue-600 transition-all duration-300"></span>
-            </button>
           </div>
 
         </div>

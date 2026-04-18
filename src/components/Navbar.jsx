@@ -239,7 +239,7 @@ function Navbar() {
   // }, [activeHash, previousActive]);
 
   return (
-    <div className="fixed top-0 left-0 w-full pt-2 sm:pt-3 z-50 px-2 sm:px-4">
+    <div className="fixed top-0 left-0 w-full pt-2 sm:pt-3 z-[100] px-2 sm:px-4">
       <nav
         ref={navRef}
         className="mx-auto border border-gray-100 dark:border-slate-700/50 shadow-2xl bg-white/95 dark:bg-slate-900/80 backdrop-blur-md overflow-hidden w-full max-w-7xl rounded-[25px] sm:rounded-[35px]"

@@ -135,7 +135,7 @@ const CTA = () => {
             {/* Background Blob for Form */}
             <div className="absolute -inset-10 bg-[var(--primary-600)]/10 blur-[100px] rounded-full pointer-events-none"></div>
             
-            <form className="relative bg-white/70 dark:bg-slate-900/50 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[2rem] md:rounded-[2.5rem] pt-10 pb-6 md:pt-16 md:pb-12 px-6 md:px-12 space-y-4 md:space-y-6 shadow-2xl">
+            <form className="relative bg-white/70 dark:bg-slate-900/50 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[2rem] md:rounded-[2.5rem] pt-6 pb-4 md:pt-16 md:pb-12 px-6 md:px-12 space-y-2 md:space-y-6 shadow-2xl">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-[var(--primary-600)] ml-2">Name</label>
@@ -144,7 +144,7 @@ const CTA = () => {
                     onBlur={handleInputBlur}
                     type="text" 
                     placeholder="John Doe"
-                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-2.5 md:py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
                   />
                 </div>
                 <div className="space-y-2">
@@ -154,7 +154,7 @@ const CTA = () => {
                     onBlur={handleInputBlur}
                     type="email" 
                     placeholder="john@example.com"
-                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
+                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-2.5 md:py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
                   />
                 </div>
               </div>
@@ -166,7 +166,7 @@ const CTA = () => {
                   onBlur={handleInputBlur}
                   type="text" 
                   placeholder="Project Inquiry"
-                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
+                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-2.5 md:py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white font-bold"
                 />
               </div>
 
@@ -175,9 +175,9 @@ const CTA = () => {
                 <textarea 
                   onFocus={handleInputFocus}
                   onBlur={handleInputBlur}
-                  rows="4"
+                  rows="3"
                   placeholder="Tell me about your project..."
-                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white resize-none font-bold"
+                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 rounded-2xl px-6 py-2.5 md:py-4 outline-none focus:border-[var(--primary-600)] focus:ring-1 focus:ring-[var(--primary-600)]/20 transition-all dark:text-white resize-none font-bold"
                 ></textarea>
               </div>
 
@@ -186,7 +186,7 @@ const CTA = () => {
                 onMouseLeave={handleBtnLeave}
                 onMouseDown={handleBtnTap}
                 style={{ backgroundColor: 'var(--primary-600)' }}
-                className="w-full text-white font-black py-5 rounded-2xl flex items-center justify-center gap-3 transition-shadow hover:shadow-[0_20px_40px_-10px_var(--primary-600)] shadow-xl mt-4"
+                className="w-full text-white font-black py-3.5 md:py-5 rounded-2xl flex items-center justify-center gap-3 transition-shadow hover:shadow-[0_20px_40px_-10px_var(--primary-600)] shadow-xl mt-2"
               >
                 Send Message <Send size={18} />
               </button>

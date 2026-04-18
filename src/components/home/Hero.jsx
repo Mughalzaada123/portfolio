@@ -239,7 +239,7 @@ const HeroSection = () => {
       {/* MOBILE ONLY BUTTONS (Fixed at Bottom of Hero) */}
       <div
         ref={mobileDockRef}
-        className="absolute bottom-4 left-0 right-0 z-[60] flex lg:hidden px-4"
+        className="absolute bottom-4 left-0 right-0 z-[40] flex lg:hidden px-4"
       >
         <div className="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-[1.5rem] sm:rounded-[2rem] p-2 sm:p-3 shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex flex-col gap-2">
           <button

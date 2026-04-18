@@ -135,7 +135,7 @@ function Testimonials() {
   const prevSlide = () => changeSlide((activeIndex - 1 + testimonials.length) % testimonials.length);
 
   return (
-    <div ref={container} className="relative w-full py-16 md:py-24 bg-white dark:bg-[#030712] overflow-hidden transition-colors">
+    <div ref={container} className="relative w-full py-12 md:py-24 bg-white dark:bg-[#030712] overflow-hidden transition-colors">
       
       {/* Huge Background Scrolling Text */}
       <div className="absolute bottom-10 left-0 w-full pointer-events-none opacity-[0.03] dark:opacity-[0.08] z-0 flex items-center overflow-hidden">
@@ -144,7 +144,7 @@ function Testimonials() {
         </h2>
       </div>
 
-      <div className="mx-auto w-[90%] md:w-[85%] max-w-7xl relative z-10 flex flex-col lg:flex-row gap-16 lg:gap-24 items-start mt-6 md:mt-10">
+      <div className="mx-auto w-[90%] md:w-[85%] max-w-7xl relative z-10 flex flex-col lg:flex-row gap-10 lg:gap-24 items-start mt-4 md:mt-10">
         
         {/* Left Side: Header & Controls */}
         <div className="w-full lg:w-1/3 flex flex-col gap-8">
@@ -197,23 +197,23 @@ function Testimonials() {
         </div>
 
         {/* Right Side: Dynamic Interactive Display */}
-        <div className="w-full lg:w-2/3 relative min-h-[400px] flex items-start pt-0 lg:pt-1">
+        <div className="w-full lg:w-2/3 relative min-h-[320px] sm:min-h-[400px] flex items-start pt-0 lg:pt-1">
           
           {/* Animated Glow Behind Text */}
           <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[150%] bg-gradient-to-tr ${activeTestimonial.color} opacity-5 blur-[120px] rounded-full transition-colors duration-1000 -z-10`} />
 
           <div className="relative w-full">
             {/* Stars */}
-            <div className="flex gap-2 mb-8">
+            <div className="flex gap-2 mb-4 md:mb-8">
               {[...Array(activeTestimonial.rating)].map((_, idx) => (
                 <Star key={idx} size={20} className="fill-amber-400 text-amber-400" />
               ))}
             </div>
 
             {/* Dynamic Morphing Text */}
-            <div ref={textRef} className="will-change-transform flex flex-col justify-between h-full">
-              <div className="min-h-[160px] sm:min-h-[140px] md:min-h-[180px] lg:min-h-[180px] xl:min-h-[160px] flex items-start">
-                <h4 className="text-xl sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[38px] text-slate-900 dark:text-white/95 font-medium italic leading-[1.3] tracking-tight mb-6 md:mb-8 font-serif">
+            <div ref={textRef} className="will-change-transform flex flex-col gap-6 md:gap-10">
+              <div className="min-h-[100px] sm:min-h-[140px] md:min-h-[180px] lg:min-h-[180px] xl:min-h-[160px] flex items-start">
+                <h4 className="text-lg sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[38px] text-slate-900 dark:text-white/95 font-medium italic leading-[1.3] tracking-tight mb-4 md:mb-8 font-serif">
                   {activeTestimonial.text}
                 </h4>
               </div>
@@ -224,7 +224,7 @@ function Testimonials() {
                   {activeTestimonial.avatar}
                 </div>
                 <div>
-                  <h5 className="text-xl font-black text-slate-900 dark:text-white">{activeTestimonial.name}</h5>
+                  <h5 className="text-lg md:text-xl font-black text-slate-900 dark:text-white">{activeTestimonial.name}</h5>
                   <span className="text-sm uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold mt-1 block">
                     {activeTestimonial.role}
                   </span>
