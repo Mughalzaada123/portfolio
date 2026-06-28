@@ -19,13 +19,13 @@ const CTA = () => {
       {
         opacity: 1,
         x: 0,
-        ease: "none",
-        stagger: 0.06,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
         scrollTrigger: {
           trigger: leftSideRef.current,
           start: "top 85%",
-          end: "top 30%",
-          scrub: 1.2,
+          toggleActions: "play none none none",
         }
       }
     );
@@ -37,12 +37,12 @@ const CTA = () => {
         opacity: 1,
         y: 0,
         scale: 1,
-        ease: "none",
+        duration: 0.8,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: formContainerRef.current,
           start: "top 88%",
-          end: "top 35%",
-          scrub: 1.5,
+          toggleActions: "play none none none",
         }
       }
     );

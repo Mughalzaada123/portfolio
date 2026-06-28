@@ -62,13 +62,13 @@ function Testimonials() {
       {
         y: 0,
         opacity: 1,
-        ease: "none",
-        stagger: 0.06,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
         scrollTrigger: {
           trigger: container.current,
           start: "top 85%",
-          end: "top 35%",
-          scrub: 1.2,
+          toggleActions: "play none none none",
         }
       }
     );

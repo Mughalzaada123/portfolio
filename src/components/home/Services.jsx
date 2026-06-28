@@ -28,13 +28,13 @@ function Services() {
         opacity: 1,
         y: 0,
         scale: 1,
-        ease: "none",
-        stagger: 0.03,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
         scrollTrigger: {
           trigger: ".services-grid",
           start: "top 85%",
-          end: "top 50%",
-          scrub: 1,
+          toggleActions: "play none none none",
         }
       }
     );
@@ -45,12 +45,12 @@ function Services() {
       {
         opacity: 1,
         y: 0,
-        ease: "none",
+        duration: 0.8,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: headingRef.current,
           start: "top 90%",
-          end: "top 55%",
-          scrub: 1,
+          toggleActions: "play none none none",
         }
       }
     );

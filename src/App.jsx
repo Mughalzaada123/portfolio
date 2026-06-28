@@ -3,43 +3,28 @@ import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 import ThemeCustomizer from "./components/ThemeCustomizer";
-import Loader from "./components/Loader";
 import WhatsAppWidget from "./components/WhatsAppWidget";
 import { AppReadyContext } from "./context/AppReadyContext";
 
 function App() {
-  const [loaderVisible, setLoaderVisible] = useState(true);
-  const [loaderDone, setLoaderDone] = useState(false);
   const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
-    // Signal loader to start fading at 2.5s
-    const fadeTimer = setTimeout(() => setLoaderDone(true), 2500);
-
-    // Unmount loader and reveal app at 3s (after 0.5s fade)
-    const removeTimer = setTimeout(() => {
-      setLoaderVisible(false);
-      setAppReady(true); // ← Hero and other sections now start animations
-    }, 3000);
-
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(removeTimer);
-    };
+    // Tiny delay ensures GSAP and DOM are ready before becoming visible, preventing flash/glitch
+    const timer = requestAnimationFrame(() => {
+      setTimeout(() => setAppReady(true), 50);
+    });
+    return () => cancelAnimationFrame(timer);
   }, []);
 
   return (
     <BrowserRouter>
-      {/* Loader sits on top while visible */}
-      {loaderVisible && <Loader done={loaderDone} />}
-
-      {/* Main app always mounted so React tree is ready, but invisible until loader exits */}
       <AppReadyContext.Provider value={appReady}>
-        <div
-          className="relative w-full"
+        <div 
+          className="relative w-full bg-slate-50 dark:bg-[#030712]"
           style={{
             opacity: appReady ? 1 : 0,
-            transition: appReady ? 'opacity 0.4s ease' : 'none',
+            transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
             pointerEvents: appReady ? 'auto' : 'none',
           }}
         >

@@ -96,15 +96,7 @@ function Navbar() {
     setIsOpen(false);
   }, [location]);
 
-  useGSAP(() => {
-    gsap.from(navRef.current, {
-      y: -50,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out",
-      delay: 0.2
-    });
-  }, []);
+
 
   useGSAP(() => {
     if (isOpen) {
@@ -132,17 +124,13 @@ function Navbar() {
 
   // Navbar entrance animation
   useGSAP(() => {
-    // Only run animation after loader has exited
-    if (!appReady) return;
-    
     gsap.from(navRef.current, {
-      y: -30,
-      opacity: 0,
-      duration: 0.8,
+      y: -50,
+      duration: 1,
       ease: "power3.out",
       delay: 0.1
     });
-  }, { dependencies: [appReady] });
+  }, []);
 
   const handleLogoHover = (e) => {
     gsap.to(e.currentTarget, { rotate: 180, scale: 1.1, duration: 0.5 });

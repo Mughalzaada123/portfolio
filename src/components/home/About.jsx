@@ -24,12 +24,12 @@ function About() {
       { opacity: 0, x: -80, scale: 0.9 },
       {
         opacity: 1, x: 0, scale: 1,
-        ease: "none",
+        duration: 0.8,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: container.current,
           start: "top 90%",
-          end: "center 70%",
-          scrub: 1,
+          toggleActions: "play none none none",
         }
       }
     );
@@ -47,12 +47,12 @@ function About() {
       { scale: 0, rotate: -20, opacity: 0 },
       {
         scale: 1, rotate: 0, opacity: 1,
-        ease: "none",
+        duration: 0.8,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: container.current,
           start: "top 85%",
-          end: "center 70%",
-          scrub: 1,
+          toggleActions: "play none none none",
         }
       }
     );
@@ -62,13 +62,13 @@ function About() {
       { opacity: 0, y: 40 },
       {
         opacity: 1, y: 0,
-        ease: "none",
-        stagger: 0.04,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
         scrollTrigger: {
           trigger: container.current,
           start: "top 90%",
-          end: "center 60%",
-          scrub: 1,
+          toggleActions: "play none none none",
         }
       }
     );
@@ -86,13 +86,13 @@ function About() {
     // Scrubbing Word Reveal
     gsap.to(".story-word", {
       opacity: 1,
-      stagger: 0.1,
-      ease: "none",
+      duration: 0.8,
+      stagger: 0.05,
+      ease: "power3.out",
       scrollTrigger: {
         trigger: storyTextRef.current,
         start: "top 90%",
-        end: "bottom 70%",
-        scrub: 1,
+        toggleActions: "play none none none",
       }
     });
 

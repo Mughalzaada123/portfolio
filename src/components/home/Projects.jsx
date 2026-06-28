@@ -43,12 +43,12 @@ function Projects() {
       { opacity: 0, y: 60 },
       {
         opacity: 1, y: 0,
-        ease: "none",
+        duration: 0.8,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: headerRef.current,
           start: "top 90%",
-          end: "top 50%",
-          scrub: 1,
+          toggleActions: "play none none none",
         }
       }
     );
@@ -79,12 +79,13 @@ function Projects() {
       gsap.fromTo(imgSide,
         { opacity: 0, x: isEven ? -60 : 60 },
         {
-          opacity: 1, x: 0, ease: "none",
+          opacity: 1, x: 0,
+          duration: 0.8,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: row,
             start: "top 85%",
-            end: "top 35%",
-            scrub: 1.2,
+            toggleActions: "play none none none",
           }
         }
       );
@@ -92,12 +93,14 @@ function Projects() {
       gsap.fromTo(textSide,
         { opacity: 0, x: isEven ? 60 : -60 },
         {
-          opacity: 1, x: 0, ease: "none",
+          opacity: 1, x: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.2,
           scrollTrigger: {
             trigger: row,
             start: "top 85%",
-            end: "top 30%",
-            scrub: 1.5,
+            toggleActions: "play none none none",
           }
         }
       );
