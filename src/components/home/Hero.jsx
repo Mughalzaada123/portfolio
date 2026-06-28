@@ -122,7 +122,7 @@ const HeroSection = () => {
     <div
       ref={container}
       id="hero"
-      className="relative w-full min-h-[100dvh] bg-slate-50 dark:bg-[#030712] flex items-center justify-center overflow-hidden pt-24 sm:pt-28 md:pt-24 lg:pt-20 pb-20 lg:pb-0"
+      className="relative w-full min-h-[100svh] bg-slate-50 dark:bg-[#030712] flex items-center justify-center overflow-hidden pt-24 sm:pt-28 md:pt-24 lg:pt-20 pb-20 lg:pb-0"
     >
       {/* --- PREMIUM BACKGROUND ELEMENTS --- */}
       <div className="absolute inset-0 z-0">
