@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FiClock, FiArrowUpRight } from "react-icons/fi";
 
-import project1 from "../../assets/projects/ar-dev-toolkit.png";
+import project2 from "../../assets/projects/dental-clinic.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,11 +15,12 @@ function Projects() {
   const projects = [
     {
       id: 1,
-      title: "AR-dev-toolkit",
-      category: "PHP • CSS • JS Logic",
-      image: project1,
+      title: "Elara Dental Studio",
+      category: "React • Tailwind • Vite",
+      image: project2,
       isComingSoon: false,
-      desc: "A comprehensive developer toolkit engineered for modern PHP and JS workflows, emphasizing clean architecture and efficiency."
+      liveLink: "https://dental-clinic-theme.vercel.app/",
+      desc: "A premium dental clinic website featuring modern UI, appointment booking, doctor profiles, and a stunning gallery — built with React and Tailwind CSS."
     },
     { 
       id: 2, 
@@ -159,14 +160,14 @@ function Projects() {
                   
                   {/* Image Container (60%) */}
                   <div className="project-img-side w-full lg:w-3/5">
-                  <div className={`relative w-full aspect-video sm:aspect-[16/10] overflow-hidden rounded-[2rem] bg-slate-100 dark:bg-slate-900 ${project.isComingSoon ? 'border border-slate-200 dark:border-slate-800' : ''}`}>
+                  <div className={`relative w-full aspect-[16/9] overflow-hidden rounded-[2rem] bg-slate-100 dark:bg-slate-900 ${project.isComingSoon ? 'border border-slate-200 dark:border-slate-800' : ''}`}>
                     {!project.isComingSoon ? (
                       <div className="absolute inset-0 w-full h-full">
-                        {/* Parallax Image */}
+                        {/* Project Image */}
                         <img 
                           src={project.image} 
                           alt={project.title} 
-                          className="project-image-parallax absolute -top-[10%] left-0 w-full h-[120%] object-cover origin-center scale-100 group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]" 
+                          className="project-image-parallax absolute top-0 left-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]" 
                         />
                         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500"></div>
                       </div>
@@ -196,9 +197,9 @@ function Projects() {
                   </p>
 
                   {!project.isComingSoon ? (
-                    <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm uppercase tracking-widest hover:scale-105 transition-transform duration-300">
+                    <a href={project.liveLink || "#"} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm uppercase tracking-widest hover:scale-105 transition-transform duration-300 no-underline">
                       View Project <FiArrowUpRight size={20} />
-                    </button>
+                    </a>
                   ) : (
                     <button disabled className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold text-sm uppercase tracking-widest cursor-not-allowed">
                       Coming Soon
